@@ -31,10 +31,3 @@
     <% end %>
   </div>
 </nav>
-
-<% if user_signed_in? %>
-  <p>User: <%= current_user.email %></p>
-<% elsif artist_signed_in?%>
-  <p>Artist: <%= current_artist.email %></p>
-<% else %>
-<% end %>

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :sample_pack do
-    artist { nil }
-    name { "MyString" }
+    name { "My First Sample Pack" }
+    association :artist
   end
 end
