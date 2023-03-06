@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Splice</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  </head>
+
+  <body>
+    <p class="notice bg-blue-300"><%= notice %></p>
+    <p class="alert bg-red-300"><%= alert %></p>
+    <%= render "shared/navbar"%>
+    <%= yield %>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Sample packs</h1>
+
+<div id="sample_packs">
+  <% @sample_packs.each do |sample_pack| %>
+    <%= render sample_pack %>
+    <p>
+      <%= link_to "Show this sample pack", sample_pack %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New sample pack", new_sample_pack_path %>
