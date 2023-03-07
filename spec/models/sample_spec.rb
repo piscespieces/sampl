@@ -14,6 +14,7 @@ RSpec.describe Sample, type: :model do
   describe "associations" do
     it { should belong_to(:sample_pack) }
     it { should have_one_attached(:audio) }
-    it { shoyld have_many(:likes) }
+    it { should have_many(:likes).dependent(:destroy) }
+    it { should have_many(:user_likes).through(:likes) }
   end
 end

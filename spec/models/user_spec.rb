@@ -7,6 +7,11 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "associations" do
+    it { should have_many(:likes).dependent(:destroy) }
+    it { should have_many(:sample_likes).through(:likes) }
+  end
+
   describe "validations" do
     it { should validate_presence_of(:email) }
     it { should validate_uniqueness_of(:email).ignoring_case_sensitivity }
