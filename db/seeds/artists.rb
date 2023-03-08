@@ -1,1 +1,1 @@
-Artist.create(email: "artist@artist.com", password: "abc123", password_confirmation: "abc123")
+Artist.create(name: "Devastador", email: "artist@artist.com", password: "abc123", password_confirmation: "abc123")

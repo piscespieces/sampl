@@ -15,7 +15,7 @@
 
   <div class="mb-6">
     <%= form.label :name, class: "block" %>
-    <%= form.text_field :name, class: "text-input" %>
+    <%= form.text_field :name, required: true, class: "text-input" %>
   </div>
 
   <div class="mb-6">
@@ -25,9 +25,12 @@
 
   <div data-controller="audio-preview" class="mb-6">
     <%= form.fields_for :samples do |s| %>
-      <%= s.hidden_field :audio, value: s.object.audio %>
-      <%= s.file_field :audio %>
+    <div class="mb-8">
+      <%= s.hidden_field :audio, value: s.object.audio, data: { action: "change->audio-preview#getFileName" } %>
+      <%= audio_tag(url_for(s.object.audio), controls: "") %>
+      <%= s.file_field :audio, { accept: "audio/wav, audio/mp3" } %>
       <%= s.check_box :_destroy %>
+    </div>
     <% end %>
     <%# TODO: How to send NAME attribute %>
     <%= file_field_tag("samples[]", {multiple: true, accept: "audio/wav, audio/mp3", data: { action: "change->audio-preview#getFileName" }}) %>

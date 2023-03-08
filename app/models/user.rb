@@ -6,5 +6,5 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
   has_many :likes, dependent: :destroy
-  has_many :sample_likes, through: :likes, source: :sample
+  has_many :liked_samples, through: :likes, source: :sample
 end

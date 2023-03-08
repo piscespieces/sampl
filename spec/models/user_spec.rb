@@ -9,7 +9,7 @@ RSpec.describe User, type: :model do
 
   describe "associations" do
     it { should have_many(:likes).dependent(:destroy) }
-    it { should have_many(:sample_likes).through(:likes) }
+    it { should have_many(:liked_samples).through(:likes) }
   end
 
   describe "validations" do

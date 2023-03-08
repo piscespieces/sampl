@@ -1,6 +1,8 @@
 class SamplePacksController < ApplicationController
   before_action :set_sample_pack, only: %i[ show edit update destroy ]
-  before_action :authenticate
+  before_action :set_sample_pack, only: %i[ show edit update destroy ]
+  before_action :authenticate_all, only: [:index]
+  before_action :authenticate_artist!, only: [:new, :edit, :update, :destroy]
 
   # GET /sample_packs or /sample_packs.json
   def index
@@ -22,7 +24,7 @@ class SamplePacksController < ApplicationController
 
   # POST /sample_packs or /sample_packs.json
   def create
-    samples_attributes = params[:samples].inject({}) do |hash, file|
+    samples_attributes = sample_params.inject({}) do |hash, file|
       name = file.original_filename.delete(".mp3")
       hash.merge!(SecureRandom.hex => { audio: file, name: name })
     end
@@ -74,7 +76,11 @@ class SamplePacksController < ApplicationController
       params.require(:sample_pack).permit(:artist_id, :name, :image)
     end
 
-    def authenticate
+    def sample_params
+      params.require(:samples)
+    end
+
+    def authenticate_all
       if !user_signed_in? && !artist_signed_in?
         redirect_to new_user_session_path
       end
