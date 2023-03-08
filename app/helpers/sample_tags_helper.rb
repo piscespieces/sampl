@@ -1,0 +1,2 @@
+module SampleTagsHelper
+end

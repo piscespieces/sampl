@@ -2,14 +2,6 @@
 
 <h1 class="text-2xl font-semibold mb-4">Sample packs collection</h1>
 
-<p>
-<% if user_signed_in? %>
-  Hello User: <%= current_user.email %>, welcome</p>
-<% elsif artist_signed_in?%>
-  Hello Artist: <%= current_artist.email %>, welcome</p>
-<% end %>
-</p>
-
 <div id="sample_packs">
   <% @sample_packs.each do |sample_pack| %>
     <%= render sample_pack %>

@@ -31,3 +31,14 @@
     <% end %>
   </div>
 </nav>
+
+<section class="mb-8">
+  <p>
+    <% if user_signed_in? %>
+      Hello User: <%= current_user.email %>, welcome</p>
+    <% elsif artist_signed_in?%>
+      Hello Artist: <%= current_artist.email %>, welcome</p>
+    <% end %>
+  </p>
+  <div class="divider"></div>
+</section>

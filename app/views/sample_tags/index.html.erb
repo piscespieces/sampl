@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Sample tags</h1>
+
+<div id="sample_tags">
+  <% @sample_tags.each do |sample_tag| %>
+    <%= render sample_tag %>
+    <p>
+      <%= link_to "Show this sample tag", sample_tag %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New sample tag", new_sample_tag_path %>

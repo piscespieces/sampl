@@ -22,7 +22,12 @@ class SamplePacksController < ApplicationController
 
   # POST /sample_packs or /sample_packs.json
   def create
-    @sample_pack = SamplePack.new(sample_pack_params)
+    samples_attributes = params[:samples].inject({}) do |hash, file|
+      name = file.original_filename.delete(".mp3")
+      hash.merge!(SecureRandom.hex => { audio: file, name: name })
+    end
+    sample_pack_attributes  = sample_pack_params.merge(samples_attributes: samples_attributes)    
+    @sample_pack = SamplePack.new(sample_pack_attributes)
 
     respond_to do |format|
       if @sample_pack.save
@@ -66,7 +71,7 @@ class SamplePacksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def sample_pack_params
-      params.require(:sample_pack).permit(:artist_id, :name, :file)
+      params.require(:sample_pack).permit(:artist_id, :name, :image)
     end
 
     def authenticate

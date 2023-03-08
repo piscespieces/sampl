@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :sample_tags
   resources :samples
   resources :sample_packs
   devise_for :artists

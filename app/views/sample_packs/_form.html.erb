@@ -1,4 +1,4 @@
-<%= form_with(model: sample_pack) do |form| %>
+<%= form_with(model: sample_pack, multipart: true) do |form| %>
   <% if sample_pack.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(sample_pack.errors.count, "error") %> prohibited this sample_pack from being saved:</h2>
@@ -11,14 +11,28 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :artist_id, style: "display: block" %>
-    <%= form.text_field :artist_id %>
+  <%= form.hidden_field :artist_id, value: current_artist.id %>
+
+  <div class="mb-6">
+    <%= form.label :name, class: "block" %>
+    <%= form.text_field :name, class: "text-input" %>
   </div>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="mb-6">
+      <%= form.label :image, class: "block" %>
+      <%= form.file_field :image %>
+  </div>
+
+  <div data-controller="audio-preview" class="mb-6">
+    <%= form.fields_for :samples do |s| %>
+      <%= s.hidden_field :audio, value: s.object.audio %>
+      <%= s.file_field :audio %>
+      <%= s.check_box :_destroy %>
+    <% end %>
+    <%# TODO: How to send NAME attribute %>
+    <%= file_field_tag("samples[]", {multiple: true, accept: "audio/wav, audio/mp3", data: { action: "change->audio-preview#getFileName" }}) %>
+    <div id="audio-files-container">
+    </div>
   </div>
 
   <div>

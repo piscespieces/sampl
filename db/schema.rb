@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_06_233401) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_07_141143) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,9 +71,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_06_233401) do
     t.index ["artist_id"], name: "index_sample_packs_on_artist_id"
   end
 
+  create_table "sample_taggables", force: :cascade do |t|
+    t.bigint "sample_id", null: false
+    t.bigint "sample_tag_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sample_id"], name: "index_sample_taggables_on_sample_id"
+    t.index ["sample_tag_id"], name: "index_sample_taggables_on_sample_tag_id"
+  end
+
+  create_table "sample_tags", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "samples", force: :cascade do |t|
     t.bigint "sample_pack_id", null: false
-    t.string "name", null: false
+    t.string "name"
     t.string "key"
     t.integer "bpm"
     t.datetime "created_at", null: false
@@ -98,5 +113,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_06_233401) do
   add_foreign_key "likes", "samples"
   add_foreign_key "likes", "users"
   add_foreign_key "sample_packs", "artists"
+  add_foreign_key "sample_taggables", "sample_tags"
+  add_foreign_key "sample_taggables", "samples"
   add_foreign_key "samples", "sample_packs"
 end
