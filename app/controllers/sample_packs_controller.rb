@@ -2,7 +2,7 @@ class SamplePacksController < ApplicationController
   before_action :set_sample_pack, only: %i[ show edit update destroy ]
   before_action :set_sample_pack, only: %i[ show edit update destroy ]
   before_action :authenticate_all, only: [:index]
-  before_action :authenticate_artist!, only: [:new, :edit, :update, :destroy]
+  # before_action :authenticate_artist!, only: [:new, :edit, :update, :destroy]
 
   # GET /sample_packs or /sample_packs.json
   def index
@@ -16,10 +16,12 @@ class SamplePacksController < ApplicationController
   # GET /sample_packs/new
   def new
     @sample_pack = SamplePack.new
+    authorize @sample_pack
   end
 
   # GET /sample_packs/1/edit
   def edit
+    authorize @sample_pack
   end
 
   # POST /sample_packs or /sample_packs.json

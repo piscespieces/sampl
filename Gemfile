@@ -85,3 +85,5 @@ group :development, :test do
 end
 
 gem "shoulda-matchers", "~> 5.0"
+
+gem "pundit", "~> 2.3"

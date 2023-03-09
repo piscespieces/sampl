@@ -13,15 +13,18 @@ class SamplesController < ApplicationController
   # GET /samples/new
   def new
     @sample = Sample.new
+    authorize @sample
   end
 
   # GET /samples/1/edit
   def edit
+    authorize @sample
   end
 
   # POST /samples or /samples.json
   def create
     @sample = Sample.new(sample_params)
+    authorize @sample
 
     respond_to do |format|
       if @sample.save
@@ -36,6 +39,7 @@ class SamplesController < ApplicationController
 
   # PATCH/PUT /samples/1 or /samples/1.json
   def update
+    authorize @sample
     respond_to do |format|
       if @sample.update(sample_params)
         format.html { redirect_to sample_url(@sample), notice: "Sample was successfully updated." }
@@ -49,6 +53,7 @@ class SamplesController < ApplicationController
 
   # DELETE /samples/1 or /samples/1.json
   def destroy
+    authorize @sample
     @sample.destroy
 
     respond_to do |format|

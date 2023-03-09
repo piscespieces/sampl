@@ -3,8 +3,10 @@
 <%= render @sample_pack %>
 
 <div>
-  <%= link_to "Edit this sample pack", edit_sample_pack_path(@sample_pack) %> |
-  <%= link_to "Back to sample packs", sample_packs_path %>
+  <% unless current_user %>
+    <%= link_to "Edit this sample pack", edit_sample_pack_path(@sample_pack) %> |
+    <%= link_to "Back to sample packs", sample_packs_path %>
 
-  <%= button_to "Destroy this sample pack", @sample_pack, method: :delete %>
+    <%= button_to "Destroy this sample pack", @sample_pack, method: :delete %>
+  <% end %>
 </div>
