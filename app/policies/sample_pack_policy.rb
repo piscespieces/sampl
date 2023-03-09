@@ -1,6 +1,9 @@
 class SamplePackPolicy < ApplicationPolicy
-  def initialize(user, scope)
-    @artist = user
+end
+
+class Artist::SamplePackPolicy
+  def initialize(artist, scope)
+    @artist = artist
     @sample_pack = scope
   end
 

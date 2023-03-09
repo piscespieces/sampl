@@ -11,16 +11,9 @@
     <div class="hidden w-full md:block md:w-auto" id="navbar-default">
       <ul class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
         <% if user_signed_in? %>
-          <li>
-            <%= link_to "User Log Out", destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: "block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" %>
-          </li>
-          <!-- <li> -->
-            <%#= link_to "Become an Artist", new_artist_registration_path, class: "block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"%>
-          <!-- </li> -->
+          <%= render "shared/user_navbar"%>
         <% elsif artist_signed_in? %>
-          <li> 
-            <%= link_to "Artist Log Out", destroy_artist_session_path, method: :delete, data: { turbo_method: :delete }, class: "block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" %>
-          <li> 
+          <%= render "shared/artist_navbar" %>
         <% else %>
           <li>
             <%= link_to "Login as User", new_user_session_path, class: "block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" %>
@@ -28,19 +21,12 @@
           <li>
             <%= link_to "Create User", new_user_registration_path, class: "block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" %>
           </li>
-        <% end %>
-
-        <% if !artist_signed_in? && !user_signed_in? %>
           <li>
             <%= link_to "Login as Artist", new_artist_session_path, class: "block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" %>
           </li>
           <li>
             <%= link_to "Become an Artist", new_artist_registration_path, class: "block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" %>
           </li>
-        <% else %>
-          <!-- <li> -->
-            <%#= link_to "Log Out", destroy_artist_session_path, method: :delete, data: { turbo_method: :delete }, class: "block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" %>
-          <!-- <li> -->
         <% end %>
       </ul>
     </div>
@@ -63,7 +49,7 @@
                   <%= current_artist && current_artist.name.capitalize %>
                 </b>
                 <% unless user_signed_in? %>
-                  <%= link_to new_sample_pack_path, class: "inline font-medium text-blue-600 underline dark:text-blue-500 underline-offset-2 decoration-600 dark:decoration-500 decoration-solid hover:no-underline" do %>
+                  <%= link_to new_artists_sample_pack_path, class: "inline font-medium text-blue-600 underline dark:text-blue-500 underline-offset-2 decoration-600 dark:decoration-500 decoration-solid hover:no-underline" do %>
                     Click Here
                   <% end %>
                   to create a Sample Pack

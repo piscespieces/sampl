@@ -3,7 +3,7 @@
 
 <div id="sample_packs" class="p-5 grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
   <% @sample_packs.each_with_index do |sample_pack, index| %>
-    <%= render "sample_pack_card", sample_pack: sample_pack %>
+    <%= render "shared/sample_pack_card", sample_pack: sample_pack %>
   <% end %>
 </div>
 
