@@ -14,7 +14,6 @@ class Artists::SamplePacksController < ApplicationController
   # GET artists/sample_packs/new
   def new
     @sample_pack = SamplePack.new
-    # authorize @sample_pack
   end
 
   # GET artists/sample_packs/1/edit
@@ -30,7 +29,6 @@ class Artists::SamplePacksController < ApplicationController
     end
     sample_pack_attributes  = sample_pack_params.merge(samples_attributes: samples_attributes)    
     @sample_pack = SamplePack.new(sample_pack_attributes)
-    # authorize @sample_pack
 
     respond_to do |format|
       if @sample_pack.save
@@ -45,7 +43,6 @@ class Artists::SamplePacksController < ApplicationController
 
   # PATCH/PUT artists/sample_pack/1
   def update
-    # authorize @sample_pack
     respond_to do |format|
       if @sample_pack.update(sample_pack_params)
         format.html { redirect_to artists_sample_pack_url(@sample_pack), notice: "Sample pack was successfully updated." }
@@ -59,7 +56,6 @@ class Artists::SamplePacksController < ApplicationController
 
   # DELETE artists/sample_packs/1
   def destroy
-    authorize @sample_pack
     @sample_pack.destroy
 
     respond_to do |format|
