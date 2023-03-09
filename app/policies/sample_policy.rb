@@ -1,5 +1,5 @@
 class SamplePolicy
-  attr_reader :user, :post
+  attr_reader :user, :sample
 
   def initialize(user, sample)
     @user = user
@@ -7,18 +7,18 @@ class SamplePolicy
   end
 
   def new?
-    !user
+    !@user
   end
 
   def create?
-    !user
+    !@user
   end
 
   def edit?
-    !user
+    !@user
   end
 
   def update?
-    !user
+    !@user
   end
 end

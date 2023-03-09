@@ -1,24 +1,26 @@
-class SamplePackPolicy
-  attr_reader :user, :post
-
-  def initialize(user, sample_pack)
-    @user = user
-    @sample_pack = sample_pack
+class SamplePackPolicy < ApplicationPolicy
+  def initialize(user, scope)
+    @artist = user
+    @sample_pack = scope
   end
 
   def new?
-    !user
+    @artist
   end
 
   def create?
-    !user
+    @artist
   end
 
   def edit?
-    !user
+    @artist && @artist.id == @sample_pack.artist.id
   end
 
   def update?
-    !user
+    @artist && @artist.id == @sample_pack.artist.id
+  end
+
+  def destroy?
+    @artist && @artist.id == @sample_pack.artist.id
   end
 end

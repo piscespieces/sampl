@@ -2,7 +2,10 @@ class SamplePacksController < ApplicationController
   before_action :set_sample_pack, only: %i[ show edit update destroy ]
   before_action :set_sample_pack, only: %i[ show edit update destroy ]
   before_action :authenticate_all, only: [:index]
-  # before_action :authenticate_artist!, only: [:new, :edit, :update, :destroy]
+
+  # def policy_scope(scope)
+  #   super([:admin, scope])
+  # end
 
   # GET /sample_packs or /sample_packs.json
   def index
@@ -32,6 +35,7 @@ class SamplePacksController < ApplicationController
     end
     sample_pack_attributes  = sample_pack_params.merge(samples_attributes: samples_attributes)    
     @sample_pack = SamplePack.new(sample_pack_attributes)
+    authorize @sample_pack
 
     respond_to do |format|
       if @sample_pack.save
@@ -46,6 +50,7 @@ class SamplePacksController < ApplicationController
 
   # PATCH/PUT /sample_packs/1 or /sample_packs/1.json
   def update
+    authorize @sample_pack
     respond_to do |format|
       if @sample_pack.update(sample_pack_params)
         format.html { redirect_to sample_pack_url(@sample_pack), notice: "Sample pack was successfully updated." }
@@ -59,6 +64,7 @@ class SamplePacksController < ApplicationController
 
   # DELETE /sample_packs/1 or /sample_packs/1.json
   def destroy
+    authorize @sample_pack
     @sample_pack.destroy
 
     respond_to do |format|
@@ -86,5 +92,9 @@ class SamplePacksController < ApplicationController
       if !user_signed_in? && !artist_signed_in?
         redirect_to new_user_session_path
       end
+    end
+
+    def pundit_user
+      current_artist
     end
 end

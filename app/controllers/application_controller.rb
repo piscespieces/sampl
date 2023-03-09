@@ -13,8 +13,7 @@ class ApplicationController < ActionController::Base
   private
 
   def pundishing_user
-    flash[:alert] = "You are not authorized to perform this action."
-    render file: "#{Rails.root}/public/404.html", status: :not_found
+    redirect_back fallback_location: sample_packs_path, notice: "You don't have access to that route"
   end
 
   protected
