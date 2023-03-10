@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
   devise_for :artists
   devise_for :users
-  
   resources :sample_tags
-  resources :samples
-  resources :sample_packs
+  resources :samples do
+    post "like"
+  end
+  resources :sample_packs do
+    get "download"
+  end
+  resources :likes, only: [:index]
 
   namespace :artists do
     resources :sample_packs

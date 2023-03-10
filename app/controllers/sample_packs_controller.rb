@@ -72,6 +72,10 @@ class SamplePacksController < ApplicationController
     end
   end
 
+  def download
+    # TODO: download sample pack zip file
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_sample_pack

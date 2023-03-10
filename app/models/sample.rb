@@ -5,4 +5,10 @@ class Sample < ApplicationRecord
   has_many :user_likes, through: :likes, source: :user
   has_many :sample_taggables, dependent: :destroy
   has_many :tags, through: :sample_taggables, source: :sample_tag
+
+  def already_liked?(user_id)
+    puts self.id
+    self.likes.find_by(user_id: user_id).present?
+  end
+
 end

@@ -62,6 +62,19 @@ class SamplesController < ApplicationController
     end
   end
 
+  def like
+    @sample = Sample.find(params[:sample_id])
+    @already_liked = @sample.already_liked?(current_user.id)
+
+    if @already_liked
+      @sample.likes.find_by!(user_id: current_user.id).destroy
+      respond_to redirect_to sample_pack_path(@sample.sample_pack)
+    else
+      @sample.likes.create!(user_id: current_user.id)
+      redirect_to sample_pack_path(@sample.sample_pack)
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_sample
