@@ -12,7 +12,7 @@ RSpec.describe SamplePack, type: :model do
   end
 
   describe "associations" do
-    it { should belong_to(:artist) }
+    it { should belong_to(:user) }
     it { should have_one_attached(:image) }
     it { should have_many(:samples).dependent(:destroy) }
     it { should accept_nested_attributes_for(:samples).allow_destroy(true) }

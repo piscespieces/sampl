@@ -1,4 +1,4 @@
-<%= form_with(model: sample_pack, multipart: true) do |form| %>
+<%= form_with(model: sample_pack, enctype: "multipart/form-data") do |form| %>
   <% if sample_pack.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(sample_pack.errors.count, "error") %> prohibited this sample_pack from being saved:</h2>
@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <%= form.hidden_field :artist_id, value: current_artist.id %>
+  <%= form.hidden_field :user_id, value: current_user.id %>
 
   <div class="mb-6">
     <%= form.label :name, class: "block" %>
@@ -25,15 +25,14 @@
 
   <div data-controller="audio-preview" class="mb-6">
     <%= form.fields_for :samples do |s| %>
-    <div class="mb-8">
-      <%= s.hidden_field :audio, value: s.object.audio, data: { action: "change->audio-preview#getFileName" } %>
-      <%= audio_tag(url_for(s.object.audio), controls: "") %>
-      <%= s.file_field :audio, { accept: "audio/wav, audio/mp3" } %>
-      <%= s.check_box :_destroy %>
-    </div>
+      <div class="mb-8">
+        <%= s.hidden_field :audio, value: s.object.audio, data: { action: "change->audio-preview#getFileName" } %>
+        <%= audio_tag(url_for(s.object.audio), controls: "") %>
+        <%#= s.file_field :audio, { accept: "audio/wav, audio/mp3", multiple: true } %>
+        <%= s.check_box :_destroy %>
+      </div>
     <% end %>
-    <%# TODO: How to send NAME attribute %>
-    <%= file_field_tag("samples[]", {multiple: true, accept: "audio/wav, audio/mp3", data: { action: "change->audio-preview#getFileName" }}) %>
+    <%= file_field_tag("samples[]", required: current_page?(new_sample_pack_path), multiple: true, accept: "audio/wav, audio/mp3", data: { action: "change->audio-preview#getFileName" }) %>
     <div id="audio-files-container">
     </div>
   </div>

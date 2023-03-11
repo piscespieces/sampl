@@ -5,6 +5,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :email, presence: true, uniqueness: true
+  has_many :sample_packs
   has_many :likes, dependent: :destroy
   has_many :liked_samples, through: :likes, source: :sample
+
+  def artist?
+    self.artist
+  end
 end

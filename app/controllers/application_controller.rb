@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  include Pundit
+  include Pundit::Authorization
   rescue_from Pundit::NotAuthorizedError, with: :pundishing_user
   
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -7,21 +7,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def after_sign_in_path_for(resource)
-    if resource.class == Artist
-      artists_sample_packs_path
-    else
-      sample_packs_path
-    end
+    sample_packs_path
   end
 
   private
 
   def pundishing_user
-    if current_artist
-      redirect_back fallback_location: sample_packs_path, notice: "You don't have access to that route"
-    else
-      redirect_back fallback_location: sample_packs_path, notice: "You don't have access to that route"
-    end
+    redirect_back fallback_location: sample_packs_path, notice: "You don't have access to that route"
   end
 
   protected

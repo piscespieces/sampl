@@ -1,10 +1,6 @@
 class SamplePacksController < ApplicationController
   before_action :set_sample_pack, only: %i[ show edit update destroy ]
-  before_action :authenticate_all, only: [:index]
-
-  # def policy_scope(scope)
-  #   super([:admin, scope])
-  # end
+  before_action :authenticate_user!, only: [:index]
 
   # GET /sample_packs or /sample_packs.json
   def index
@@ -28,7 +24,8 @@ class SamplePacksController < ApplicationController
 
   # POST /sample_packs or /sample_packs.json
   def create
-    samples_attributes = sample_params.inject({}) do |hash, file|
+    # TODO: refactor
+    samples_attributes = params[:samples]&.inject({}) do |hash, file|
       name = file.original_filename.delete(".mp3")
       hash.merge!(SecureRandom.hex => { audio: file, name: name })
     end
@@ -49,9 +46,26 @@ class SamplePacksController < ApplicationController
 
   # PATCH/PUT /sample_packs/1 or /sample_packs/1.json
   def update
+    # TODO: refactor
     authorize @sample_pack
+    
+    if params[:samples].nil?
+      params[:samples] = []
+    end
+
+    samples_attributes = params[:samples]&.inject({}) do |hash, file|
+      name = file.original_filename.delete(".mp3")
+      hash.merge!(SecureRandom.hex => { audio: file, name: name })
+    end
+
+    if samples_attributes.nil?
+      @sample_pack_attributes = sample_pack_params
+    else
+      @sample_pack_attributes = sample_pack_params.merge(samples_attributes: samples_attributes)
+    end
+    
     respond_to do |format|
-      if @sample_pack.update(sample_pack_params)
+      if @sample_pack.update(@sample_pack_attributes)
         format.html { redirect_to sample_pack_url(@sample_pack), notice: "Sample pack was successfully updated." }
         format.json { render :show, status: :ok, location: @sample_pack }
       else
@@ -84,16 +98,6 @@ class SamplePacksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def sample_pack_params
-      params.require(:sample_pack).permit(:artist_id, :name, :image)
-    end
-
-    def sample_params
-      params.require(:samples)
-    end
-
-    def authenticate_all
-      if !user_signed_in? && !artist_signed_in?
-        redirect_to new_user_session_path
-      end
+      params.require(:sample_pack).permit(:user_id, :name, :image, :samples_attributes => {})
     end
 end

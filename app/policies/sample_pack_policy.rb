@@ -1,29 +1,26 @@
 class SamplePackPolicy < ApplicationPolicy
-end
-
-class Artist::SamplePackPolicy
-  def initialize(artist, scope)
-    @artist = artist
+  def initialize(user, scope)
+    @user = user
     @sample_pack = scope
   end
 
   def new?
-    @artist
+    @user.artist?
   end
 
   def create?
-    @artist
+    @user.artist?
   end
 
   def edit?
-    @artist && @artist.id == @sample_pack.artist.id
+    @user.artist? && @user.id == @sample_pack.user.id
   end
 
   def update?
-    @artist && @artist.id == @sample_pack.artist.id
+    @user.artist? && @user.id == @sample_pack.user.id
   end
 
   def destroy?
-    @artist && @artist.id == @sample_pack.artist.id
+    @user.artist? && @user.id == @sample_pack.user.id
   end
 end

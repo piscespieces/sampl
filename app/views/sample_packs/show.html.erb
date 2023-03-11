@@ -1,9 +1,7 @@
-<p style="color: green"><%= notice %></p>
-
 <%= render @sample_pack %>
 
 <div>
-  <% unless current_user || current_artist.id != @sample_pack.artist.id %>
+  <% if current_user.artist? && current_user.id == @sample_pack.user.id %>
     <%= link_to "Edit this sample pack", edit_sample_pack_path(@sample_pack) %> |
     <%= link_to "Back to sample packs", sample_packs_path %>
 

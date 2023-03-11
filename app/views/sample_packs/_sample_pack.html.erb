@@ -10,7 +10,7 @@
 
     <div class="flex flex-col gap-8">
       <div class="flex flex-col gap-2">
-        <p class="text-gray-700 dark:text-gray-400"><strong><%= sample_pack.artist.name %></strong></p>
+        <p class="text-gray-700 dark:text-gray-400"><strong><%= sample_pack.user.name %></strong></p>
         <h3 class="text-2xl font-semibold dark:text-gray-200"><%= sample_pack.name %></h3>
         <p class=""><%= sample_pack.samples.count %> Samples</p>
       </div>
@@ -36,7 +36,7 @@
         <h5 class="text-md font-semibold"><%= sample.name %></h5>
         <div class="flex">
           <%= audio_tag(url_for(sample.audio), controls: "", class: "") %>
-          <% unless current_artist %>
+          <% unless current_user.artist? %>
             <%= button_to sample_like_path(sample), class: "w-full h-full" do %>
               <% if sample.already_liked?(current_user.id) %>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="#f91880" viewBox="0 0 24 24" stroke-width="0" stroke="currentColor" class="w-6 h-6">
