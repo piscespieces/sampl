@@ -24,15 +24,17 @@
   </div>
 
   <div data-controller="audio-preview" class="mb-6">
-    <%= form.fields_for :samples do |s| %>
+    <%= form.fields_for :samples do |sample_form| %>
       <div class="mb-8">
-        <%= s.hidden_field :audio, value: s.object.audio, data: { action: "change->audio-preview#getFileName" } %>
-        <%= audio_tag(url_for(s.object.audio), controls: "") %>
-        <%#= s.file_field :audio, { accept: "audio/wav, audio/mp3", multiple: true } %>
-        <%= s.check_box :_destroy %>
+        <%= sample_form.hidden_field :audio, value: sample_form.object.audio, data: { action: "change->audio-preview#getFileName" } %>
+        <%= audio_tag(url_for(sample_form.object.audio), controls: "") %>
+        <%= sample_form.object.tags.first&.title %>
+        <%#= s.file_field :audio, { accept: "audio/wav, audio/mp3", multiple: true, include_hidden: false } %>
+        <%= sample_form.check_box :_destroy %>
       </div>
     <% end %>
     <%= file_field_tag("samples[]", required: current_page?(new_sample_pack_path), multiple: true, accept: "audio/wav, audio/mp3", data: { action: "change->audio-preview#getFileName" }) %>
+    <%#= form.file_field :samples_attributes, multiple: true, data: { action: "change->audio-preview#getFileName" } %>
     <div id="audio-files-container">
     </div>
   </div>

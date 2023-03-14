@@ -1,6 +1,7 @@
 class SamplePacksController < ApplicationController
   before_action :set_sample_pack, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, only: [:index]
+  # before_action :append_audios, only: %i[create update]
 
   # GET /sample_packs or /sample_packs.json
   def index
@@ -14,7 +15,8 @@ class SamplePacksController < ApplicationController
   # GET /sample_packs/new
   def new
     @sample_pack = SamplePack.new
-    authorize @sample_pack
+    # @sample_pack.samples.build
+    # authorize @sample_pack
   end
 
   # GET /sample_packs/1/edit
@@ -24,14 +26,11 @@ class SamplePacksController < ApplicationController
 
   # POST /sample_packs or /sample_packs.json
   def create
-    # TODO: refactor
-    samples_attributes = params[:samples]&.inject({}) do |hash, file|
-      name = file.original_filename.delete(".mp3")
-      hash.merge!(SecureRandom.hex => { audio: file, name: name })
+    @sample_pack = SamplePack.new(sample_pack_params)
+    params[:samples]&.each do |sample|
+      @sample_pack.samples.new(audio: sample, name: sample.original_filename)
     end
-    sample_pack_attributes  = sample_pack_params.merge(samples_attributes: samples_attributes)    
-    @sample_pack = SamplePack.new(sample_pack_attributes)
-    authorize @sample_pack
+    # authorize @sample_pack
 
     respond_to do |format|
       if @sample_pack.save
@@ -46,26 +45,12 @@ class SamplePacksController < ApplicationController
 
   # PATCH/PUT /sample_packs/1 or /sample_packs/1.json
   def update
-    # TODO: refactor
-    authorize @sample_pack
-    
-    if params[:samples].nil?
-      params[:samples] = []
-    end
-
-    samples_attributes = params[:samples]&.inject({}) do |hash, file|
-      name = file.original_filename.delete(".mp3")
-      hash.merge!(SecureRandom.hex => { audio: file, name: name })
-    end
-
-    if samples_attributes.nil?
-      @sample_pack_attributes = sample_pack_params
-    else
-      @sample_pack_attributes = sample_pack_params.merge(samples_attributes: samples_attributes)
+    params[:samples]&.each do |sample|
+      @sample_pack.samples.new(audio: sample, name: sample.original_filename)
     end
     
     respond_to do |format|
-      if @sample_pack.update(@sample_pack_attributes)
+      if @sample_pack.update(sample_pack_params)
         format.html { redirect_to sample_pack_url(@sample_pack), notice: "Sample pack was successfully updated." }
         format.json { render :show, status: :ok, location: @sample_pack }
       else
@@ -91,13 +76,13 @@ class SamplePacksController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_sample_pack
-      @sample_pack = SamplePack.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_sample_pack
+    @sample_pack = SamplePack.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def sample_pack_params
-      params.require(:sample_pack).permit(:user_id, :name, :image, :samples_attributes => {})
-    end
+  # Only allow a list of trusted parameters through.
+  def sample_pack_params
+    params.require(:sample_pack).permit(:user_id, :name, :image, samples_attributes: [:id, :_destroy, audio: []])
+  end
 end

@@ -1,15 +1,15 @@
 FactoryBot.define do
   factory :user do
     name { "User" }
-    admin { false }
+    artist { false }
     email { "user@user.com" }
     password { "abc123" }
     password_confirmation { "abc123" }
   end
 
-  factory :admin, class: "User" do
+  factory :artist, class: "User" do
     name { "User" }
-    admin { true }
+    artist { true }
     email { "admin@admin.com" }
     password { "abc123" }
     password_confirmation { "abc123" }
