@@ -27,10 +27,26 @@ class SamplePacksController < ApplicationController
   # POST /sample_packs or /sample_packs.json
   def create
     @sample_pack = SamplePack.new(sample_pack_params)
-    params[:samples]&.each do |sample|
-      @sample_pack.samples.new(audio: sample, name: sample.original_filename)
+
+    @samples = params[:samples]&.inject({}) do |hash, file|
+      hash.merge!(file.original_filename => { sample: file })
     end
+
+    @samples.each do |key, value|
+      @sample = @sample_pack.samples.new(audio: value[:sample], name: value[:sample].original_filename)
+
+      if !!params[:sample_tags]
+        params[:sample_tags][key]&.each do |tag_key, tag|
+          @sample.tag_list.add(tag_key)
+        end
+      end
+    end
+
+    # params[:samples]&.each do |sample|
+    #   @sample_pack.samples.new(audio: sample, name: sample.original_filename)
+    # end
     # authorize @sample_pack
+    
 
     respond_to do |format|
       if @sample_pack.save
@@ -63,6 +79,9 @@ class SamplePacksController < ApplicationController
   # DELETE /sample_packs/1 or /sample_packs/1.json
   def destroy
     authorize @sample_pack
+    # @sample_pack.samples.each do |sample|
+    #   sample.delete_all
+    # end 
     @sample_pack.destroy
 
     respond_to do |format|

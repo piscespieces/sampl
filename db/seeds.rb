@@ -14,7 +14,6 @@ puts "Seeding #{Rails.env}..."
 
 unless Rails.env.production?
   seed "users"
-  seed "artists"
 end
 
 puts "Seeding done"
