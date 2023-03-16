@@ -19,22 +19,34 @@ export default class extends Controller {
   }
 
   getFileName(event) {
-    const audioFilesContainer = document.getElementById("audio-files-container");
+    const audioFilesContainer = document.getElementById("audio-files-container")
     const files = event.target.files;
     
     for (let file of files) {
+      const audioContainer = document.createElement("div")
+      audioContainer.classList.add("mb-4")
+
+      const labelsContainer = document.createElement("div")
+      labelsContainer.classList.add("flex", "gap-3")
+
       const audioPlayer = document.createElement("audio");
       const audioSource = document.createElement("source");
       const songName = document.createElement("p");
+      songName.classList.add("prose", "mt-2")
       
       for (let tag of this.tags) {
         const label = document.createElement("label")
+        label.classList.add("prose", "prose-sm", "prose-gray")
         label.textContent = tag;
         const checkbox = document.createElement("input")
         checkbox.setAttribute("type", "checkbox")
         checkbox.setAttribute("name", `sample_tags[${file.name}][${tag}]`)
-        audioFilesContainer.append(label)
-        audioFilesContainer.append(checkbox)
+        checkbox.classList.add("checkbox", "checkbox-xs")
+        const labelCheckboxContainer = document.createElement("div")
+        labelCheckboxContainer.classList.add("flex", "gap-1", "items-center")
+        labelCheckboxContainer.append(label)
+        labelCheckboxContainer.append(checkbox)
+        labelsContainer.append(labelCheckboxContainer)
       }
       
       songName.textContent = file.name
@@ -42,8 +54,12 @@ export default class extends Controller {
       audioPlayer.setAttribute("controls", "controls")
       audioPlayer.append(audioSource);
       audioSource.setAttribute("src", src);
-      audioFilesContainer.append(audioPlayer);
-      audioFilesContainer.append(songName);
+
+      audioContainer.append(labelsContainer)
+      audioContainer.append(audioPlayer)
+      audioContainer.append(songName);
+
+      audioFilesContainer.append(audioContainer);
     }
   }
 
