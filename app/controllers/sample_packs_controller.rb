@@ -33,9 +33,10 @@ class SamplePacksController < ApplicationController
       tag_list = sample_tag_params.transform_values { |tags| tags.keys }.to_h
     end
 
-    @sample_pack.samples = @samples.each do |sample_params|
+    @sample_pack.samples = @samples.map do |sample_params|
       sample = Sample.new(sample_params)
       sample.tag_list.add(tag_list[sample_params[:name]]) if tag_list && tag_list[sample_params[:name]]
+      sample
     end
 
     respond_to do |format|

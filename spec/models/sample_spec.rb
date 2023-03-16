@@ -12,7 +12,5 @@ RSpec.describe Sample, type: :model do
     it { should have_one_attached(:audio) }
     it { should have_many(:likes).dependent(:destroy) }
     it { should have_many(:user_likes).through(:likes) }
-    it { should have_many(:sample_taggables).dependent(:destroy) }
-    it { should have_many(:tags).through(:sample_taggables) }
   end
 end

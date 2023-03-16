@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :sample_tag do
-    name { "MyString" }
+    name { "Drums" }
   end
 end
