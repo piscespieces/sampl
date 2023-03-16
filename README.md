@@ -1,24 +1,45 @@
-# README
+# Sampl — Open Source Alternative To Splice (WIP)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+- Ruby On Rail 7
+- Postgresql
+- TailwindCSS / DaisyUI
+- ActiveStorage for File Uploads
+- RSpec
 
-Things you may want to cover:
+#### Under Construction 🚧
 
-* Ruby version
+Sampl is still under construction but it can be launch locally
 
-* System dependencies
+- Clone repository from GitHub
+- Within the root directory run `bundle install` and `yarn install` to install all dependencies needed
+- Create the database and run the migration files with `bin/rails db:create db:migrate`
+- Run the `seeds.rb` file to seed the database with a `User` that can create `SamplePacks` — `bin/rails db:seed`
+- Run the project in `localhost:3000` — If you want to launch the app in a different port, change the port number in the `Procfile.dev`
+- Login, and have fun.
 
-* Configuration
+#### Current Features
 
-* Database creation
+A regular `User` can login and see a list of all Sample Packs created by artists
+A regular `User` can see the Samples that belong to a Sample Pack
+A regular `User` can like Samples from a Sample Pack
+A regular `User` can download Samples from a Sample Pack
 
-* Database initialization
+An artist `User` can login and see a list of all Sample Packs created by other artists
+An artist `User`can see the Samples that belong to a Sample Pack
+An artist `User` cannot like Samples from a Sample Pack
+An artist `User` can download Samples from a Sample Pack
+An artist `User` can create Sample Packs and Samples that belong to the Sample Pack
 
-* How to run the test suite
+#### Upcoming tasks/features
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- Hook up S3 bucket for Image and Audio Uploads
+- Deploy app as is
+- Create `My Liked Samples` section for regular `Users`
+- Create endpoint to download Sample Packs and it's associated Samples in a ZIP file for all `User`s
+- Add `Genre` column to database for Sample Packs and include it's form field in the Sample Pack form
+- Improve view layouts
+- Add an Audio Data Analizer to Audio Uploads to determine Audio Quality and enforce audio quality validation
+- Improve Audio Player design
+- Create `StarredSamplesPacks` table for `User`s to star Sample Packs
+- Create a Public Profile View for Artists and regular `Users`s can see it
+- ... 🚧
