@@ -6,7 +6,7 @@
 - ActiveStorage for File Uploads
 - RSpec
 
-#### Under Construction 🚧
+### Under Construction 🚧
 
 Sampl is still under construction but it can be launch locally
 
@@ -17,7 +17,7 @@ Sampl is still under construction but it can be launch locally
 - Run the project in `localhost:3000` — If you want to launch the app in a different port, change the port number in the `Procfile.dev`
 - Login, and have fun.
 
-#### Current Features
+### Current Features
 
 A regular `User` can login and see a list of all Sample Packs created by artists
 A regular `User` can see the Samples that belong to a Sample Pack
@@ -30,7 +30,7 @@ An artist `User` cannot like Samples from a Sample Pack
 An artist `User` can download Samples from a Sample Pack
 An artist `User` can create Sample Packs and Samples that belong to the Sample Pack
 
-#### Upcoming tasks/features
+### Upcoming tasks/features
 
 - Hook up S3 bucket for Image and Audio Uploads
 - Deploy app as is
