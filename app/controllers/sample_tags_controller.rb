@@ -3,7 +3,11 @@ class SampleTagsController < ApplicationController
 
   # GET /sample_tags or /sample_tags.json
   def index
-    @sample_tags = SampleTag.all
+    @sample_tags = SampleTag.all.map(&:name)
+
+    respond_to do |format|
+      format.json { render json: @sample_tags }
+    end
   end
 
   # GET /sample_tags/1 or /sample_tags/1.json

@@ -2,12 +2,23 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="audio-preview"
 export default class extends Controller {
-  connect() {
+  tags = null;
 
+  connect() {
+    fetch("/sample_tags", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      this.tags = data;
+    })
+    .catch(error => console.error(error))
   }
 
   getFileName(event) {
-    const tags = ["fx", "drums", "synths"]
     const audioFilesContainer = document.getElementById("audio-files-container");
     const files = event.target.files;
     
@@ -16,15 +27,15 @@ export default class extends Controller {
       const audioSource = document.createElement("source");
       const songName = document.createElement("p");
       
-      // for (let tag of tags) {
-      //   const label = document.createElement("label")
-      //   label.textContent = tag;
-      //   const checkbox = document.createElement("input")
-      //   checkbox.setAttribute("type", "checkbox")
-      //   checkbox.setAttribute("name", `sample_tags[${file.name}][${tag}]`)
-      //   audioFilesContainer.append(label)
-      //   audioFilesContainer.append(checkbox)
-      // }
+      for (let tag of this.tags) {
+        const label = document.createElement("label")
+        label.textContent = tag;
+        const checkbox = document.createElement("input")
+        checkbox.setAttribute("type", "checkbox")
+        checkbox.setAttribute("name", `sample_tags[${file.name}][${tag}]`)
+        audioFilesContainer.append(label)
+        audioFilesContainer.append(checkbox)
+      }
       
       songName.textContent = file.name
       const src = URL.createObjectURL(file);

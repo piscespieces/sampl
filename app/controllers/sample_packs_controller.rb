@@ -1,7 +1,7 @@
 class SamplePacksController < ApplicationController
   before_action :set_sample_pack, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, only: [:index]
-  # before_action :append_audios, only: %i[create update]
+  before_action :all_sample_tag_names, only: [:update]
 
   # GET /sample_packs or /sample_packs.json
   def index
@@ -27,26 +27,16 @@ class SamplePacksController < ApplicationController
   # POST /sample_packs or /sample_packs.json
   def create
     @sample_pack = SamplePack.new(sample_pack_params)
+    @samples = params[:samples]&.map { |file| { name: file.original_filename, audio: file } }
 
-    @samples = params[:samples]&.inject({}) do |hash, file|
-      hash.merge!(file.original_filename => { sample: file })
+    if !!params[:sample_tags]
+      tag_list = sample_tag_params.transform_values { |tags| tags.keys }.to_h
     end
 
-    @samples.each do |key, value|
-      @sample = @sample_pack.samples.new(audio: value[:sample], name: value[:sample].original_filename)
-
-      if !!params[:sample_tags]
-        params[:sample_tags][key]&.each do |tag_key, tag|
-          @sample.tag_list.add(tag_key)
-        end
-      end
+    @sample_pack.samples = @samples.each do |sample_params|
+      sample = Sample.new(sample_params)
+      sample.tag_list.add(tag_list[sample_params[:name]]) if tag_list && tag_list[sample_params[:name]]
     end
-
-    # params[:samples]&.each do |sample|
-    #   @sample_pack.samples.new(audio: sample, name: sample.original_filename)
-    # end
-    # authorize @sample_pack
-    
 
     respond_to do |format|
       if @sample_pack.save
@@ -61,10 +51,25 @@ class SamplePacksController < ApplicationController
 
   # PATCH/PUT /sample_packs/1 or /sample_packs/1.json
   def update
-    params[:samples]&.each do |sample|
-      @sample_pack.samples.new(audio: sample, name: sample.original_filename)
+    # New `Samples`
+    @samples = params[:samples]&.map { |file| { name: file.original_filename, audio: file } }
+
+    if !!params[:sample_tags]
+      tag_list = sample_tag_params.transform_values { |tags| tags.keys }.to_h
     end
-    
+
+    if @samples.present?
+      # New `Samples` to the SamplePack
+      add_samples_with(tag_list)
+    end
+
+    @sample_pack.samples.each do |sample|
+      sample.tag_list.add(tag_list[sample[:name]]) if tag_list && tag_list[sample[:name]]
+      missing_tags = all_sample_tag_names - tag_list[sample[:name]]
+      missing_tags.each { |missing_tag| sample.tag_list.remove(missing_tag) }
+      sample.save
+    end
+
     respond_to do |format|
       if @sample_pack.update(sample_pack_params)
         format.html { redirect_to sample_pack_url(@sample_pack), notice: "Sample pack was successfully updated." }
@@ -79,9 +84,6 @@ class SamplePacksController < ApplicationController
   # DELETE /sample_packs/1 or /sample_packs/1.json
   def destroy
     authorize @sample_pack
-    # @sample_pack.samples.each do |sample|
-    #   sample.delete_all
-    # end 
     @sample_pack.destroy
 
     respond_to do |format|
@@ -103,5 +105,21 @@ class SamplePacksController < ApplicationController
   # Only allow a list of trusted parameters through.
   def sample_pack_params
     params.require(:sample_pack).permit(:user_id, :name, :image, samples_attributes: [:id, :_destroy, audio: []])
+  end
+
+  def sample_tag_params
+    params.require(:sample_tags).permit!
+  end
+
+  def all_sample_tag_names
+    sample_tags = SampleTag.all.map(&:name)
+  end
+
+  def add_samples_with(tag_list)
+    @samples.each do |sample_params|
+      sample = Sample.new(sample_params)
+      sample.tag_list.add(tag_list[sample_params[:name]]) if tag_list && tag_list[sample_params[:name]]
+      @sample_pack.samples.push(sample)
+    end
   end
 end

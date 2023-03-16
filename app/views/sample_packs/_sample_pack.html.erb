@@ -34,6 +34,11 @@
     <% if sample_pack.samples.length > 0 %>
       <% sample_pack.samples.each do |sample| %> 
         <h5 class="text-md font-semibold"><%= sample.name %></h5>
+        <div>
+          <% sample.tag_list.each do |tag| %>
+            <%= tag %>
+          <% end %>
+        </div>
         <div class="flex">
           <%= audio_tag(url_for(sample.audio), controls: "", class: "") %>
           <% unless current_user.artist? %>
