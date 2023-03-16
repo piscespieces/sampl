@@ -43,3 +43,7 @@ An artist `User` can create Sample Packs and Samples that belong to the Sample P
 - Create `StarredSamplesPacks` table for `User`s to star Sample Packs
 - Create a Public Profile View for Artists and regular `Users`s can see it
 - ... 🚧
+
+### How's it going? (Image)
+
+![Sample Pack Show Page](https://user-images.githubusercontent.com/49796875/225739296-bb52986d-c4d0-4164-8f0e-1983ae05e73a.png "Sample Pack Show Page")
