@@ -46,6 +46,6 @@ An artist `User` can create Sample Packs and Samples that belong to the Sample P
 
 ### How's it going? (Image)
 
-![Sampl Home Page](https://user-images.githubusercontent.com/49796875/225959917-7016fe15-c76b-42c8-9ccc-3f0e016f0686.png, "Sampl Home Page")
+![Sampl Home Page](https://user-images.githubusercontent.com/49796875/225961695-d069842c-c73b-4a68-b610-1c9333452a61.png "Sampl Home Page")
 
 ![Sample Pack Index Page](https://user-images.githubusercontent.com/49796875/225950707-30cd331c-5ce7-4108-a0df-32be987375d3.png "Sample Pack Index Page")
