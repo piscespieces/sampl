@@ -1,24 +1,46 @@
-<div class="bg-gray-300 mb-6">
-  <h1 class="prose prose-gray text-2xl font-semibold mb-4 p-2">New Samples Uploaded</h1>
+<div class="bg-neutral mb-6">
+  <h1 class="prose prose-gray text-2xl font-semibold mb-4 px-6 py-4">New Samples Uploaded</h1>
 </div>
 
-<div class="mb-1">
-  <p class="prose prose-gray prose-sm">Scroll 
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-    </svg>
-  </p>
+<section class="ml-4 sm:ml-8 md:mx-16 mb-16" id="new">
+  <div class="mb-1">
+    <p class="prose prose-gray prose-sm">Scroll 
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+      </svg>
+    </p>
+  </div>
+
+  <div id="sample_packs" class="overflow-x-auto flex space-x-8">
+    <% @sample_packs.each_with_index do |sample_pack, index| %>
+      <%= render "shared/sample_pack_card", sample_pack: sample_pack %>
+    <% end %>
+  </div>
+</section>
+
+<div class="bg-neutral mb-6">
+  <h1 class="prose prose-gray text-2xl font-semibold mb-4 px-6 py-4">Popular Samples</h1>
 </div>
 
-<div id="sample_packs" class="overflow-x-auto flex space-x-8 bg-gray-50">
-  <% @sample_packs.each_with_index do |sample_pack, index| %>
-    <%= render "shared/sample_pack_card", sample_pack: sample_pack %>
-  <% end %>
-</div>
+<section class="ml-4 sm:ml-8 md:mx-16" id="popular">
+  <div class="mb-1">
+    <p class="prose prose-gray prose-sm">Scroll 
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+      </svg>
+    </p>
+  </div>
+
+  <div id="sample_packs" class="overflow-x-auto flex space-x-8 mb-16">
+    <% @sample_packs.reverse.each_with_index do |sample_pack, index| %>
+      <%= render "shared/sample_pack_card", sample_pack: sample_pack %>
+    <% end %>
+  </div>
+</section>
 
 <% if user_signed_in? && current_user.artist? %>
   <%= link_to new_sample_pack_path do %>
-    <button class="fixed z-90 bottom-10 right-8 p-0 w-16 h-16 bg-black rounded-full active:shadow-lg mouse shadow transition ease-in-out duration-50 focus:outline-none">
+    <button class="fixed z-90 bottom-10 right-8 p-0 w-16 h-16 bg-neutral rounded-full active:shadow-lg mouse shadow transition ease-in-out duration-50 focus:outline-none">
       <svg viewBox="0 0 20 20" enable-background="new 0 0 20 20" class="w-6 h-6 inline-block">
         <path fill="#FFFFFF" d="M16,10c0,0.553-0.048,1-0.601,1H11v4.399C11,15.951,10.553,16,10,16c-0.553,0-1-0.049-1-0.601V11H4.601C4.049,11,4,10.553,4,10c0-0.553,0.049-1,0.601-1H9V4.601C9,4.048,9.447,4,10,4c0.553,0,1,0.048,1,0.601V9h4.399C15.952,9,16,9.447,16,10z" />
       </svg>
