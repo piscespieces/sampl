@@ -40,3 +40,5 @@
 /config/credentials/development.key
 
 /config/credentials/production.key
+
+.vscode/rdbg_autoattach.json
