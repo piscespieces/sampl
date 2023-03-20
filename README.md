@@ -33,7 +33,7 @@ An artist `User` can create Sample Packs and Samples that belong to the Sample P
 ### Upcoming tasks/features
 
 - Hook up S3 bucket for Image and Audio Uploads
-- Deploy app as is
+- ~~Deploy app as is~~
 - Create `My Liked Samples` section for regular `Users`
 - Create endpoint to download Sample Packs and it's associated Samples in a ZIP file for all `User`s
 - Add `Genre` column to database for Sample Packs and include it's form field in the Sample Pack form
