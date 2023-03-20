@@ -5,6 +5,7 @@ databases:
 services:
   - type: web
     name: rails
+    plan: free
     env: ruby
     buildCommand: "./bin/render-build.sh"
     startCommand: bundle exec rails s
@@ -18,5 +19,4 @@ services:
   - type: redis
     name: redis
     ipAllowList: []
-    plan: free
     maxmemoryPolicy: noeviction
