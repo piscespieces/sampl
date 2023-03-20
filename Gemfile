@@ -89,3 +89,5 @@ gem "shoulda-matchers", "~> 5.0"
 gem "pundit", "~> 2.3"
 
 gem 'acts-as-taggable-on'
+
+gem "aws-sdk-s3", require: false
