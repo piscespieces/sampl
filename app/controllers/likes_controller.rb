@@ -1,7 +1,6 @@
 class LikesController < ApplicationController
-  before_action :current_user
 
   def index
-    @likes = current_user.likes
+    @liked_samples = current_user.liked_samples
   end
 end

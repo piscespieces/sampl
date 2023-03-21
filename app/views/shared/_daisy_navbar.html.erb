@@ -8,6 +8,7 @@
   <div class="flex-none">
     <ul class="menu menu-horizontal px-1">
       <% if user_signed_in? && !current_user.artist %>
+        <li><%= link_to "Liked Samples", likes_path, class: "prose prose-gray" %></li>
         <li><a class="prose">Downloads</a></li>
         <li tabindex="0">
           <a class="prose">

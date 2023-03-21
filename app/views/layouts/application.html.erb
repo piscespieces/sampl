@@ -13,11 +13,11 @@
   <body>
     <% if notice %>
       <div class="bg-gray-300 p-2" id="notice">
-        <p class="prose"><%= notice %></p>
+        <p class="prose text-gray-800"><%= notice %></p>
       </div>
     <% elsif alert %>
       <div class="bg-yellow-300 p-2" id="alert">
-        <p class="prose"><%= alert %></p>
+        <p class="prose text-gray-800"><%= alert %></p>
       </div>
     <% end %>
     <%= render "shared/daisy_navbar"%>

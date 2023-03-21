@@ -1,0 +1,73 @@
+<% if @liked_samples.count > 0 %>
+  <div class="overflow-x-auto w-full">
+    <table class="table w-full">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th>
+          </th>
+          <th>Sample</th>
+          <th>Sample Pack</th>
+          <th>BPM</th>
+          <th>Key</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- body -->
+        <% @liked_samples.each do |sample| %>
+          <tr>
+            <th>
+            </th>
+            <td>
+              <div class="flex items-center space-x-3">
+                <div class="avatar">
+                  <div class="mask mask-square w-12 h-12">
+                    <%= link_to sample_pack_path(sample.sample_pack) do %>
+                      <%= image_tag(sample.sample_pack.image, alt: "sample tag image") %>
+                    <% end %>
+                  </div>
+                </div>
+                <div>
+                  <div class="font-bold"><%= sample.name %></div>
+                  <div class="text-sm opacity-50">
+                    <% sample.tag_list.each do |tag| %>
+                      <span class="badge badge-ghost badge-sm"><%= tag %></span>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <%= sample.sample_pack.name %>
+              <br/>
+              <span class="badge badge-ghost badge-sm">Sample Pack Genre</span>
+            </td>
+            <td><%= sample.bpm || "N/A" %></td>
+            <td><%= sample.key || "N/A" %></td>
+            <th>
+              <%= link_to rails_blob_path(sample.audio, disposition: "attachment"), class: "btn btn-ghost btn-xs" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                </svg>
+              <% end %>
+            </th>
+          </tr>
+        <% end %>
+      </tbody>
+      <!-- foot -->
+      <tfoot>
+        <tr>
+          <th></th>
+          <th>Sample</th>
+          <th>Sample Pack</th>
+          <th>BPM</th>
+          <th>Key</th>
+          <th></th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+<% else %>
+  You haven't liked any samples yet
+<% end %>
