@@ -91,3 +91,4 @@ gem "pundit", "~> 2.3"
 gem 'acts-as-taggable-on'
 
 gem "aws-sdk-s3", require: false
+gem "meta-tags", "~> 2.18"

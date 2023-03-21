@@ -23,4 +23,12 @@ class ApplicationController < ActionController::Base
 
     # devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:name, :email, :password, :current_password)}
   end
+
+  def set_tags
+    set_meta_tags(
+      title: "Sampl",
+      description: "Sampl is an independent, open source alternative to Splice",
+      keywords: "sample packs, samples, audio, open source"
+    )
+  end
 end

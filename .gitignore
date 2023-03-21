@@ -42,3 +42,5 @@
 /config/credentials/production.key
 
 .vscode/rdbg_autoattach.json
+
+.DS_Store
