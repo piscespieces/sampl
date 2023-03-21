@@ -1,0 +1,2 @@
+class SamplePackGenre < ApplicationRecord
+end

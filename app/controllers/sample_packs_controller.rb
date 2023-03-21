@@ -29,6 +29,10 @@ class SamplePacksController < ApplicationController
     @sample_pack = SamplePack.new(sample_pack_params)
     @samples = params[:samples]&.map { |file| { name: file.original_filename, audio: file } }
 
+    params[:sample_pack][:sample_pack_genre_names].each do |genre_name|
+      @sample_pack.genre_list.add(genre_name)
+    end
+
     if !!params[:sample_tags]
       tag_list = sample_tag_params.transform_values { |tags| tags.keys }.to_h
     end
@@ -54,6 +58,12 @@ class SamplePacksController < ApplicationController
   def update
     # New `Samples`
     @samples = params[:samples]&.map { |file| { name: file.original_filename, audio: file } }
+
+    if @sample_pack.genre_list != params[:sample_pack][:sample_pack_genre_names]
+      @sample_pack.genre_list.remove(@sample_pack.genre_list)
+      @sample_pack.genre_list.add(params[:sample_pack][:sample_pack_genre_names])
+      @sample_pack.save
+    end
 
     if !!params[:sample_tags]
       tag_list = sample_tag_params.transform_values { |tags| tags.keys }.to_h
