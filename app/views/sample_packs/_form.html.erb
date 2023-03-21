@@ -18,8 +18,19 @@
   </div>
 
   <div class="form-control w-full max-w-xs mb-4">
-      <%= form.label "Cover", class: "label prose prose-gray" %>
-      <%= form.file_field :image, class: "file-input file-input-sm w-full max-w-xs" %>
+    <%= form.label "Cover", class: "label prose prose-gray" %>
+    <%= form.file_field :image, class: "file-input file-input-sm w-full max-w-xs" %>
+  </div>
+
+  <div class="form-control w-full max-w-xs mb-4">
+    <%= form.label "Pack Genre", class: "label prose prose-gray" %>
+    <%= form.select :sample_pack_genre_names,
+          options_for_select(
+            SamplePackGenre.all.map { |genre| [genre.name, genre.name] },
+            selected: sample_pack.genre_list
+          ),
+          { include_blank: false, limit: 3 },
+          multiple: true %>
   </div>
 
   <div data-controller="audio-preview" class="mb-6">
@@ -40,12 +51,12 @@
     <div id="audio-files-container">
     </div>
     <div class="form-control w-full max-w-xs mb-8">
-      <%= label_tag("samples", "Samples", class: "label prose prose-gray")%>
+      <%= label_tag("samples", "Add Samples", class: "label prose prose-gray")%>
       <%= file_field_tag("samples[]", required: current_page?(new_sample_pack_path), multiple: true, accept: "audio/wav, audio/mp3", data: { action: "change->audio-preview#getFileName" }, class: "file-input file-input-sm w-full max-w-xs") %>
     </div>
   </div>
 
   <div>
-    <%= form.submit "Create Pack", class: "btn" %>
+    <%= form.submit current_page?(new_sample_pack_path) ? "Create Pack" : "Edit Pack", class: "btn" %>
   </div>
 <% end %>
