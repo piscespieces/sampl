@@ -14,6 +14,11 @@ puts "Seeding #{Rails.env}..."
 
 unless Rails.env.production?
   seed "users"
+  seed "genre"
+end
+
+if Rails.env.production?
+  seed "genre"
 end
 
 puts "Seeding done"
