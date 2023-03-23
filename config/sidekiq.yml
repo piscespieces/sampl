@@ -1,0 +1,8 @@
+:concurrency: 5
+:queues:
+  - default
+  - mailers
+  - reports
+
+production:
+  :url: <%= ENV['REDIS_URL'] %>
