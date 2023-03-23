@@ -16,7 +16,28 @@ services:
         fromDatabase:
           name: postgres
           property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: redis
+          property: connectionString
+
   - type: redis
     name: redis
+    region: ohio
     ipAllowList: []
     maxmemoryPolicy: noeviction
+
+  - type: worker
+    name: sidekiq-worker
+    env: ruby
+    region: ohio
+    buildCommand: bundle install
+    startCommand: bundle exec sidekiq
+    envVars:
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: redis
+      - key: RAILS_MASTER_KEY
+        sync: false
