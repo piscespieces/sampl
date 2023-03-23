@@ -1,5 +1,6 @@
 databases:
   - name: postgres
+    region: ohio
     ipAllowList: []
 
 services:
@@ -7,6 +8,7 @@ services:
     name: rails
     plan: free
     env: ruby
+    region: ohio
     buildCommand: "./bin/render-build.sh"
     startCommand: bundle exec rails s
     envVars:
