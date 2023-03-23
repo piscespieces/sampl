@@ -1,4 +1,8 @@
-<div id="<%= dom_id sample_pack %>">
+<% if current_user.artist %>
+  <div class="hidden z-90 bottom-10 right-0 bg-neutral p-2" id="radial-progress">
+  </div>
+<% end %>
+<div id="<%= dom_id sample_pack %>" data-controller="sample-pack">
   <div class="flex flex-col gap-2 mb-8">
     <div id="" class=" mb-4">
       <% if sample_pack.image.attached? %>

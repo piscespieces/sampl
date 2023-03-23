@@ -1,4 +1,7 @@
+require "sidekiq/web"
+
 Rails.application.routes.draw do
+  mount Sidekiq::Web => "/sidekiq"
   devise_for :users
   resources :sample_tags
   resources :samples do
@@ -18,4 +21,5 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   root "home#index"
+  get "/status", to: "sample_packs#status"
 end

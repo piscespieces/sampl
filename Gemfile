@@ -92,3 +92,7 @@ gem 'acts-as-taggable-on'
 
 gem "aws-sdk-s3", require: false
 gem "meta-tags", "~> 2.18"
+
+gem "sidekiq", "~> 7.0"
+
+gem "sidekiq-status", "~> 3.0"
