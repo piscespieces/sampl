@@ -32,17 +32,15 @@ class SamplePacksController < ApplicationController
       @sample_pack.genre_list.add(genre_name)
     end
 
-    @samples = params[:samples]&.map { |file| { name: file.original_filename, audio: Base64.encode64(file.read) } }
-    @samples = @samples.to_json
-
-    if !!params[:sample_tags]
-      @tag_list = params[:sample_tags].to_json
+    @samples = params[:samples]&.map do |file|
+      sample = @sample_pack.samples.new({ name: file.original_filename, audio: file })
+      tag_list = params[:sample_tags][sample.name] if params[:sample_tags].present?
+      sample.tag_list.add(tag_list) if tag_list.present?
+      sample
     end
     
     respond_to do |format|
       if @sample_pack.save
-        job_id = AttachAudioJob.perform_async(@sample_pack.id, @samples, @tag_list)
-        session[:job_id] = job_id
         format.html { redirect_to sample_pack_url(@sample_pack), notice: "Sample pack was successfully created." }
         format.json { render :show, status: :created, location: @sample_pack }
       else
@@ -54,28 +52,27 @@ class SamplePacksController < ApplicationController
 
   # PATCH/PUT /sample_packs/1 or /sample_packs/1.json
   def update
-    # New `Samples`
-    @samples = params[:samples]&.map { |file| { name: file.original_filename, audio: file } }
+    # For new samples added to the SamplePack
+    @samples = params[:samples]&.map do |file|
+      sample = @sample_pack.samples.new({ name: file.original_filename, audio: file })
+      tag_list = params[:sample_tags][sample.name] if params[:sample_tags].present?
+      sample.tag_list.add(tag_list) if tag_list.present?
+      sample
+    end
 
+    # Handles the SamplePack genre tags
     if @sample_pack.genre_list != params[:sample_pack][:sample_pack_genre_names]
       @sample_pack.genre_list.remove(@sample_pack.genre_list)
       @sample_pack.genre_list.add(params[:sample_pack][:sample_pack_genre_names])
-      @sample_pack.save
     end
 
-    if !!params[:sample_tags]
-      tag_list = sample_tag_params.transform_values { |tags| tags.keys }.to_h
-    end
-
-    if @samples.present?
-      # New `Samples` to the SamplePack
-      add_samples_with(tag_list)
-    end
-
+    # Handles existing Sample tags
     @sample_pack.samples.each do |sample|
-      sample.tag_list.add(tag_list[sample[:name]]) if tag_list && tag_list[sample[:name]]
-      missing_tags = all_sample_tag_names - tag_list[sample[:name]]
-      missing_tags.each { |missing_tag| sample.tag_list.remove(missing_tag) }
+      break if !params[:sample_tags].present?
+      next if !params[:sample_tags][sample.name].present?
+      sample.tag_list.add(params[:sample_tags][sample.name])
+      missing_tags = all_sample_tag_names - params[:sample_tags][sample.name]
+      sample.tag_list.remove(missing_tags)
       sample.save
     end
 

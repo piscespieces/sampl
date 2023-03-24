@@ -40,7 +40,8 @@ export default class extends Controller {
         label.textContent = tag;
         const checkbox = document.createElement("input")
         checkbox.setAttribute("type", "checkbox")
-        checkbox.setAttribute("name", `sample_tags[${file.name}][${tag}]`)
+        checkbox.setAttribute("name", `sample_tags[${file.name}][]`)
+        checkbox.setAttribute("value", `${tag}`)
         checkbox.classList.add("checkbox", "checkbox-xs")
         const labelCheckboxContainer = document.createElement("div")
         labelCheckboxContainer.classList.add("flex", "gap-1", "items-center")

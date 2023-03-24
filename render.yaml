@@ -26,6 +26,7 @@ services:
 
   - type: redis
     name: redis
+    plan: free
     region: ohio
     ipAllowList: []
     maxmemoryPolicy: noeviction
@@ -33,6 +34,7 @@ services:
   - type: worker
     name: sidekiq-worker
     env: ruby
+    plan: free
     region: ohio
     buildCommand: bundle install
     startCommand: bundle exec sidekiq -C config/sidekiq.yml

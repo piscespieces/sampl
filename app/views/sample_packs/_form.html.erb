@@ -39,7 +39,10 @@
         <%= sample_form.hidden_field :audio, value: sample_form.object.audio, data: { action: "change->audio-preview#getFileName" } %>
         <% SampleTag.all.each do |tag| %>
           <%= label_tag(tag.name) %>
-          <input type="checkbox" <%= sample_form.object.tag_list.include?(tag.name) ? "checked" : nil %> name="sample_tags[<%= sample_form.object.name %>][<%= tag.name %>]" value="<%= sample_form.object.tag_list.include?(tag.name) ? true : false %>">
+          <input
+            type="checkbox" <%= sample_form.object.tag_list.include?(tag.name) ? "checked" : nil %>
+            name="sample_tags[<%= sample_form.object.name %>][]"
+            value="<%= tag.name %>">
         <% end %>
         <%= audio_tag(url_for(sample_form.object.audio), controls: "") %>
         <div>
