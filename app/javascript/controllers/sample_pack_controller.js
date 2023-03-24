@@ -17,11 +17,14 @@ export default class extends Controller {
         })
         .then((data) => {
           console.log(data.progress, 'data')
-          if (data.progress) {
+          if (Object.keys(data.progress).length > 0) {
             radialProgressBar.classList.remove("hidden")
             radialProgressBar.classList.add("fixed")
             // radialProgressBar.style.cssText = `--value:${data.progress.at}; --thickness: 2px;`
             radialProgressBar.textContent = `${data.progress.at}% — ${data.progress.message}`
+          }
+          else {
+            clearInterval(intervalID)
           }
 
           if (data.progress.at === "100") {

@@ -7,7 +7,7 @@ class AttachAudioJob
     total 100
     at 10, "Loading..."
 
-    if tag_list
+    if tag_list.present?
       @parsed_tag_hash = JSON.parse(tag_list)
       @parsed_tag_list = @parsed_tag_hash.transform_values { |tags| tags.keys }.to_h
     end
