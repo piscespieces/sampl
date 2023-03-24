@@ -1,6 +1,7 @@
 class AttachAudioJob
   include Sidekiq::Worker
   include Sidekiq::Status::Worker
+  queue_as :default
 
   def perform(sample_pack_id, samples_json, tag_list = nil)
     total 100
