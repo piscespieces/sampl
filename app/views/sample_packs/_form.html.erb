@@ -22,40 +22,32 @@
     <%= form.file_field :image, class: "file-input file-input-sm w-full max-w-xs" %>
   </div>
 
-  <div class="form-control w-full max-w-xs mb-4">
-    <%= form.label "Pack Genre", class: "label prose prose-gray" %>
-    <%= form.select :sample_pack_genre_names,
-          options_for_select(
-            SamplePackGenre.all.map { |genre| [genre.name, genre.name] },
-            selected: sample_pack.genre_list
-          ),
-          { include_blank: false, limit: 3 },
-          multiple: true %>
-  </div>
-
   <div data-controller="audio-preview" class="mb-6">
+    <div class="field">
+      <%= form.label :audio_files %>
+      <input
+        type="file"
+        name="sample_pack[audio_files][]"
+        multiple="multiple"
+        accept="audio/wav, audio/mp3"
+        data-action="change->audio-preview#change"
+      />
+    </div>
+
     <%= form.fields_for :samples do |sample_form| %>
-      <div class="mb-8">
-        <%= sample_form.hidden_field :audio, value: sample_form.object.audio, data: { action: "change->audio-preview#getFileName" } %>
-        <% SampleTag.all.each do |tag| %>
-          <%= label_tag(tag.name) %>
-          <input
-            type="checkbox" <%= sample_form.object.tag_list.include?(tag.name) ? "checked" : nil %>
-            name="sample_tags[<%= sample_form.object.name %>][]"
-            value="<%= tag.name %>">
-        <% end %>
-        <%= audio_tag(url_for(sample_form.object.audio), controls: "") %>
+      <div class="sample_fields">
         <div>
-          <%= label_tag("Destroy") %>
-          <%= sample_form.check_box :_destroy %>
+          <%= sample_form.label :name %>
+          <%= sample_form.text_field :name %>
+        </div>
+        <div>
+          <%= audio_tag(url_for(sample_form.object.audio), controls: "", class: "", id: "audio") %>
         </div>
       </div>
+      <%= sample_form.check_box :_destroy %>
+      <%= sample_form.label :_destroy, "Remove" %>
     <% end %>
     <div id="audio-files-container">
-    </div>
-    <div class="form-control w-full max-w-xs mb-8">
-      <%= label_tag("samples", "Add Samples", class: "label prose prose-gray")%>
-      <%= file_field_tag("samples[]", required: current_page?(new_sample_pack_path), multiple: true, accept: "audio/wav, audio/mp3", data: { action: "change->audio-preview#getFileName" }, class: "file-input file-input-sm w-full max-w-xs") %>
     </div>
   </div>
 

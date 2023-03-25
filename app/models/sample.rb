@@ -1,6 +1,5 @@
 class Sample < ApplicationRecord
-  belongs_to :sample_pack
-  acts_as_taggable_on :tags
+  belongs_to :sample_pack, inverse_of: :samples
   has_one_attached :audio
   has_many :likes, dependent: :destroy
   has_many :user_likes, through: :likes, source: :user
@@ -9,5 +8,4 @@ class Sample < ApplicationRecord
     puts self.id
     self.likes.find_by(user_id: user_id).present?
   end
-
 end

@@ -26,27 +26,23 @@
               <div class="flex items-center space-x-3">
                 <div class="avatar">
                   <div class="mask mask-square w-12 h-12">
-                    <%= link_to sample_pack_path(sample.sample_pack) do %>
-                      <%= image_tag(sample.sample_pack.image, alt: "sample tag image") %>
+                    <% if sample.sample_pack.image.attached? %>
+                      <%= link_to sample_pack_path(sample.sample_pack) do %>
+                        <%= image_tag(sample.sample_pack.image, alt: "sample tag image") %>
+                      <% end %>
                     <% end %>
                   </div>
                 </div>
                 <div>
                   <div class="font-bold"><%= sample.name %></div>
                   <div class="text-sm">
-                    <% sample.tag_list.each do |tag| %>
-                      <span class="badge badge-ghost badge-sm"><%= tag %></span>
-                    <% end %>
+                    Tags
                   </div>
                 </div>
               </div>
             </td>
             <td>
               <%= sample.sample_pack.name %>
-              <br/>
-              <% sample.sample_pack.genre_list.each do |genre| %>
-                <span class="badge badge-ghost badge-sm"><%= genre %></span>
-              <% end %>
             </td>
             <td><%= sample.bpm || "N/A" %></td>
             <td><%= sample.key || "N/A" %></td>

@@ -15,11 +15,6 @@
     <div class="flex flex-col p-4 gap-8 bg-neutral sm:px-6 sm:py-4">
       <div class="flex flex-col">
         <p class="prose prose-gray">By <strong><%= sample_pack.user.name %></strong></p>
-        <p class="prose prose-sm mb-2">Genres
-          <% sample_pack.genre_list.each do |genre| %>
-            <span class="badge badge-outline prose prose-sm prose-gray"><%= genre %></span>
-          <% end %>
-        <p>
         <h3 class="text-2xl font-semibold"><%= sample_pack.name %></h3>
         <p class="prose prose-gray"><strong><%= sample_pack.samples.count %></strong> Samples</p>
       </div>
@@ -45,9 +40,7 @@
         <div class="flex flex-col">
           <h5 class="prose prose-gray font-semibold"><%= sample.name %></h5>
           <div class="">
-            <% sample.tag_list.each do |tag| %>
-              <span class="prose prose-gray prose-sm badge badge-outline rounded-lg p-1"><%= tag %></span>
-            <% end %>
+            tags
           <div>
         </div>
         <div class="flex mt-2">

@@ -1,76 +1,51 @@
 import { Controller } from "@hotwired/stimulus"
+import { DirectUpload } from "@rails/activestorage"
 
 // Connects to data-controller="audio-preview"
 export default class extends Controller {
   tags = null;
 
   connect() {
-    fetch("/sample_tags", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      this.tags = data;
-    })
-    .catch(error => console.error(error))
+    this.audioFilesCount = document.querySelectorAll("#audio").length;
+    this.audioFilesContainer = document.getElementById("audio-files-container")
   }
 
-  getFileName(event) {
-    const audioFilesContainer = document.getElementById("audio-files-container")
+  async change(event) {
     const files = event.target.files;
-    
-    for (let file of files) {
-      const audioContainer = document.createElement("div")
-      audioContainer.classList.add("mb-4")
 
-      const labelsContainer = document.createElement("div")
-      labelsContainer.classList.add("flex", "gap-3")
-
-      const audioPlayer = document.createElement("audio");
-      const audioSource = document.createElement("source");
-      const songName = document.createElement("p");
-      songName.classList.add("prose", "mt-2")
-      
-      for (let tag of this.tags) {
-        const label = document.createElement("label")
-        label.classList.add("prose", "prose-sm", "prose-gray")
-        label.textContent = tag;
-        const checkbox = document.createElement("input")
-        checkbox.setAttribute("type", "checkbox")
-        checkbox.setAttribute("name", `sample_tags[${file.name}][]`)
-        checkbox.setAttribute("value", `${tag}`)
-        checkbox.classList.add("checkbox", "checkbox-xs")
-        const labelCheckboxContainer = document.createElement("div")
-        labelCheckboxContainer.classList.add("flex", "gap-1", "items-center")
-        labelCheckboxContainer.append(label)
-        labelCheckboxContainer.append(checkbox)
-        labelsContainer.append(labelCheckboxContainer)
-      }
-      
-      songName.textContent = file.name
-      const src = URL.createObjectURL(file);
-      audioPlayer.setAttribute("controls", "controls")
-      audioPlayer.append(audioSource);
-      audioSource.setAttribute("src", src);
-
-      audioContainer.append(labelsContainer)
-      audioContainer.append(audioPlayer)
-      audioContainer.append(songName);
-
-      audioFilesContainer.append(audioContainer);
+    for (let i = 0; i < files.length; i++) {
+      await this.createThing(files[i], i)
     }
   }
 
-  setCheckboxes(container, fileName, labels) {
-    for (const c of checkboxLabels) {
-      const checkbox = document.createElement("input")
-      checkbox.setAttribute("type", "checkbox")
-      checkbox.setAttribute("name", `sample_tags[${fileName}]`)
-      container.append(checkbox)
-    }
-    // checkboxCollection.setAttribute("type", "checkbox")
+  async createThing(file, index) {
+    const upload = new DirectUpload(file, "/rails/active_storage/direct_uploads")
+    upload.create((error, blob) => {
+      if (error) {
+        console.error(error, "error")
+      } else {
+        let signedId = blob.signed_id;
+        let url = `/rails/active_storage/blobs/${signedId}/${file.name}`;
+
+        const nameField = document.createElement("input")
+        nameField.setAttribute("type", "text")
+        nameField.setAttribute("name", `sample_pack[samples_attributes][${index + (this.audioFilesCount || 1)}][name]`)
+        nameField.setAttribute("value", file.name)
+        this.audioFilesContainer.append(nameField)
+
+        const hiddenField = document.createElement("input")
+        hiddenField.setAttribute("type", "hidden")
+        hiddenField.setAttribute("name", `sample_pack[samples_attributes][${index + (this.audioFilesCount || 1)}][audio]`)
+        hiddenField.setAttribute("value", signedId)
+        this.audioFilesContainer.append(hiddenField)
+
+        const audioPlayer = document.createElement("audio")
+        const audioSource = document.createElement("source")
+        audioPlayer.setAttribute("controls", "controls")
+        audioPlayer.append(audioSource);
+        audioSource.setAttribute("src", url);
+        this.audioFilesContainer.append(audioPlayer)
+      }
+    })
   }
 }

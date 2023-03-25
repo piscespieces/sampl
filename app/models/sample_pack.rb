@@ -2,7 +2,6 @@ class SamplePack < ApplicationRecord
   validates :name, presence: true
   belongs_to :user
   has_one_attached :image
-  has_many :samples, dependent: :destroy
+  has_many :samples, dependent: :destroy, inverse_of: :sample_pack
   accepts_nested_attributes_for :samples, allow_destroy: true, reject_if: :all_blank
-  acts_as_taggable_on :genres
 end

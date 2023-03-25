@@ -1,2 +1,0 @@
-class SampleTag < ApplicationRecord
-end
