@@ -38,23 +38,31 @@
     <% if sample_pack.samples.length > 0 %>
       <% sample_pack.samples.each do |sample| %> 
         <div class="flex flex-col">
-          <h5 class="prose prose-gray font-semibold"><%= sample.name %></h5>
+          <h5 class="prose prose-gray"><strong><%= sample.name %></strong></h5>
+          <div>
+            <p class="prose prose-sm prose-gray">Key: <%= sample.key || "N/A" %></p>
+            <p class="prose prose-sm prose-gray">BPM: <%= sample.bpm || "N/A" %></p>
+          </div>
           <div class="">
-            tags
+            <!-- TODO: tags -->
           <div>
         </div>
         <div class="flex mt-2">
-          <%= audio_tag(url_for(sample.audio), controls: "", class: "") %>
-          <%= button_to sample_like_path(sample), class: "w-full h-full ml-2" do %>
-            <% if sample.already_liked?(current_user.id) %>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="#f91880" viewBox="0 0 24 24" stroke-width="0" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-              </svg>
-            <% else %>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="0.5" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-              </svg>
+          <% if sample.audio.present? %>
+            <%= audio_tag(url_for(sample.audio), controls: "", class: "") %>
+            <%= button_to sample_like_path(sample), class: "w-full h-full ml-2" do %>
+              <% if sample.already_liked?(current_user.id) %>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="#f91880" viewBox="0 0 24 24" stroke-width="0" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                </svg>
+              <% else %>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="0.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                </svg>
+              <% end %>
             <% end %>
+          <% else %>
+            <span>Audio File corrupted</span>
           <% end %>
         </div>
         <hr class="my-4" />

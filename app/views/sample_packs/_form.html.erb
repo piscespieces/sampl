@@ -10,48 +10,80 @@
     </div>
   <% end %>
 
-  <%= form.hidden_field :user_id, value: current_user.id %>
+  <div class="border-b border-gray-600 mb-4">
+    <div class="mb-4">
+      <div class="badge badge-lg mr-2">
+        <strong class="prose prose-gray prose-sm">1</strong>
+      </div>
+      <span class="prose text-gray-300 font-semibold">Sample Pack</span>
+    </div>
 
-  <div class="form-control w-full max-w-xs mb-4">
-    <%= form.label :name, class: "label prose prose-gray" %>
-    <%= form.text_field :name, required: true, placeholder: "Sample Pack Name", class: "input input-bordered w-full max-w-xs prose" %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+
+    <div class="form-control w-full mb-4">
+      <%= form.label :name, class: "label prose prose-gray" %>
+      <%= form.text_field :name, required: true, placeholder: "Sample Pack Name", class: "input input-bordered w-full bg-neutral md:max-w-md" %>
+    </div>
+
+    <div data-controller="image-preview">
+      <div class="form-control w-full max-w-xs">
+        <%= form.label "Pack Cover", class: "label prose prose-gray" %>
+        <%= form.file_field :image, class: "file-input w-full max-w-xs", id: "image-preview-file", data: { action: "change->image-preview#previewFile" } %>
+        <img id="image-preview-container" class="w-60 rounded my-4 drop-shadow-xl" />
+        <% if sample_pack.image.attached? %>
+          <%= image_tag(sample_pack.image, class: "w-60 rounded mb-4 drop-shadow-xl") %>
+        <% end %>
+      </div>
+    </div>
   </div>
 
-  <div class="form-control w-full max-w-xs mb-4">
-    <%= form.label "Cover", class: "label prose prose-gray" %>
-    <%= form.file_field :image, class: "file-input file-input-sm w-full max-w-xs" %>
-  </div>
+  <div data-controller="audio-preview" class="mb-4 border-b border-gray-600">
+    <div class="mb-4">
+      <div class="badge badge-lg mr-2">
+        <strong class="prose prose-gray prose-sm">2</strong>
+      </div>
+      <span class="prose text-gray-300 font-semibold">Samples</span>
+    </div>
 
-  <div data-controller="audio-preview" class="mb-6">
-    <div class="field">
-      <%= form.label :audio_files %>
+    <div class="field mb-4">
+      <%= form.label :audio_files, class: "label prose prose-gray" %>
       <input
         type="file"
         name="sample_pack[audio_files][]"
         multiple="multiple"
         accept="audio/wav, audio/mp3"
         data-action="change->audio-preview#change"
+        class="file-input w-full max-w-xs"
       />
     </div>
 
     <%= form.fields_for :samples do |sample_form| %>
-      <div class="sample_fields">
+      <div class="sample_fields border-t border-gray-600 my-4">
         <div>
-          <%= sample_form.label :name %>
-          <%= sample_form.text_field :name %>
+          <%= sample_form.label :name, class: "label prose prose-sm prose-gray" %>
+          <%= sample_form.text_field :name, class: "input input-sm input-bordered w-full bg-neutral md:max-w-md" %>
         </div>
         <div>
-          <%= audio_tag(url_for(sample_form.object.audio), controls: "", class: "", id: "audio") %>
+          <%= sample_form.label :key, class: "label prose prose-sm prose-gray" %>
+          <%= sample_form.text_field :key, class: "input input-sm input-bordered w-full bg-neutral md:max-w-md" %>
+        </div>
+        <div class="mb-4">
+          <%= sample_form.label :bpm, class: "label prose prose-sm prose-gray" %>
+          <%= sample_form.text_field :bpm, class: "input input-sm input-bordered w-full bg-neutral md:max-w-md" %>
+        </div>
+        <div>
+          <%= audio_tag(url_for(sample_form.object.audio), controls: "", class: "inline mr-1", id: "audio") %>
+          <%= sample_form.check_box :_destroy %>
+          <%= sample_form.label :_destroy, "Remove Sample", class: "prose prose-sm prose-gray" %>
         </div>
       </div>
-      <%= sample_form.check_box :_destroy %>
-      <%= sample_form.label :_destroy, "Remove" %>
+      
     <% end %>
     <div id="audio-files-container">
     </div>
   </div>
 
-  <div>
+  <div class="mb-12">
     <%= form.submit current_page?(new_sample_pack_path) ? "Create Pack" : "Edit Pack", class: "btn" %>
   </div>
 <% end %>

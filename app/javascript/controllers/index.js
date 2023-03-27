@@ -10,5 +10,8 @@ application.register("audio-preview", AudioPreviewController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import ImagePreviewController from "./image_preview_controller"
+application.register("image-preview", ImagePreviewController)
+
 import SamplePackController from "./sample_pack_controller"
 application.register("sample-pack", SamplePackController)
