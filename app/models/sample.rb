@@ -3,6 +3,7 @@ class Sample < ApplicationRecord
   has_one_attached :audio
   has_many :likes, dependent: :destroy
   has_many :user_likes, through: :likes, source: :user
+  has_and_belongs_to_many :sample_tags
 
   def already_liked?(user_id)
     puts self.id

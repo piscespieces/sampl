@@ -25,7 +25,8 @@
       <%= form.text_field :name, required: true, placeholder: "Sample Pack Name", class: "input input-bordered w-full bg-neutral md:max-w-md" %>
     </div>
 
-    <div data-controller="image-preview">
+
+    <div data-controller="image-preview" class="mb-4">
       <div class="form-control w-full max-w-xs">
         <%= form.label "Pack Cover", class: "label prose prose-gray" %>
         <%= form.file_field :image, class: "file-input w-full max-w-xs", id: "image-preview-file", data: { action: "change->image-preview#previewFile" } %>
@@ -34,6 +35,11 @@
           <%= image_tag(sample_pack.image, class: "w-60 rounded mb-4 drop-shadow-xl") %>
         <% end %>
       </div>
+    </div>
+
+    <div>
+      <%= form.label "Pack Genre (limit 3)", class: "label prose prose-gray"%>
+      <%= form.collection_select(:genre_ids, Genre.all, :id, :name, { selected: sample_pack.genre_ids }, { multiple: true, include_blank: false, class: "textarea w-full md:max-w-md bg-neutral"}) %>
     </div>
   </div>
 
@@ -58,7 +64,7 @@
     </div>
 
     <%= form.fields_for :samples do |sample_form| %>
-      <div class="sample_fields border-t border-gray-600 my-4">
+      <div class="border-t border-gray-600 my-4">
         <div>
           <%= sample_form.label :name, class: "label prose prose-sm prose-gray" %>
           <%= sample_form.text_field :name, class: "input input-sm input-bordered w-full bg-neutral md:max-w-md" %>
@@ -72,6 +78,15 @@
           <%= sample_form.text_field :bpm, class: "input input-sm input-bordered w-full bg-neutral md:max-w-md" %>
         </div>
         <div>
+          <div class="mb-1 flex gap-1">
+            <%= sample_form.collection_check_boxes(
+              :sample_tag_ids,
+              SampleTag.all,
+              :id,
+              :name,
+              {},
+              { class: "badge badge-sm" }) %>
+          </div>
           <%= audio_tag(url_for(sample_form.object.audio), controls: "", class: "inline mr-1", id: "audio") %>
           <%= sample_form.check_box :_destroy %>
           <%= sample_form.label :_destroy, "Remove Sample", class: "prose prose-sm prose-gray" %>

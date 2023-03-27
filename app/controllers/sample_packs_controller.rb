@@ -73,6 +73,6 @@ class SamplePacksController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def sample_pack_params
-    params.require(:sample_pack).permit(:user_id, :name, :image, samples_attributes: [:name, :audio, :_destroy, :id, :key, :bpm])
+    params.require(:sample_pack).permit(:user_id, :name, :image, genre_ids: [], samples_attributes: [:name, :audio, :_destroy, :id, :key, :bpm, sample_tag_ids: []])
   end
 end

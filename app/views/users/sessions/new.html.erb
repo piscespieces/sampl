@@ -1,28 +1,30 @@
-<div class="mb-4 bg-neutral p-2">
-  <h2 class="text-2xl prose">Log in</h2>
+<div class="mb-4 bg-neutral">
+  <h2 class="text-2xl prose prose-gray max-w-5xl mx-auto mb-4 px-6 py-4">Log In</h2>
 </div>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="form-control w-full max-w-xs mb-4">
-    <%= f.label :email, class: "label prose prose-gray" %>
-    <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "kurt@cobain.com", class: "input input-bordered w-full max-w-xs prose" %>
-  </div>
+<div class="max-w-5xl mx-auto">
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div class="form-control w-full max-w-xs mb-4">
+      <%= f.label :email, class: "label prose prose-gray" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "kurt@cobain.com", class: "input input-bordered w-full max-w-xs prose" %>
+    </div>
 
-  <div class="form-control w-full max-w-xs mb-4">
-    <%= f.label :password, class: "label prose prose-gray" %>
-    <%= f.password_field :password, autocomplete: "current-password", placeholder: "Password here", class: "input input-bordered w-full max-w-xs prose" %>
-  </div>
+    <div class="form-control w-full max-w-xs mb-4">
+      <%= f.label :password, class: "label prose prose-gray" %>
+      <%= f.password_field :password, autocomplete: "current-password", placeholder: "Password here", class: "input input-bordered w-full max-w-xs prose" %>
+    </div>
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field mb-4">
-      <%= f.check_box :remember_me, class: "checkbox checkbox-xs" %>
-      <%= f.label :remember_me, class: "prose prose-gray" %>
+    <% if devise_mapping.rememberable? %>
+      <div class="field mb-4">
+        <%= f.check_box :remember_me, class: "checkbox checkbox-xs" %>
+        <%= f.label :remember_me, class: "prose prose-gray" %>
+      </div>
+    <% end %>
+
+    <div class="actions mb-4">
+      <%= f.submit "Log in", class: "btn" %>
     </div>
   <% end %>
 
-  <div class="actions mb-4">
-    <%= f.submit "Log in", class: "btn" %>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+  <%= render "users/shared/links" %>
+</div>

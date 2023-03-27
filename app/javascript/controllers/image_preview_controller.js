@@ -2,9 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="image-preview"
 export default class extends Controller {
-  connect() {
-    console.log('connect')
-  }
+  connect() {}
 
   previewFile() {
     console.log('ran')
