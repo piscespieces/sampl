@@ -1,6 +1,6 @@
 <%= render @sample_pack %>
 
-<div class="prose prose-gray">
+<div class="prose prose-gray max-w-5xl mx-auto px-6 mt-4">
   <% if current_user.artist? && current_user.id == @sample_pack.user.id %>
     <%= link_to "Edit this sample pack", edit_sample_pack_path(@sample_pack) %> |
     <%= link_to "Back to sample packs", sample_packs_path %>

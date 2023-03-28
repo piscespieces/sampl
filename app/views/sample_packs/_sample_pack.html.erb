@@ -26,7 +26,7 @@
             <p class="prose prose-gray"><strong><%= sample_pack.samples.count %></strong> Samples</p>
           </div>
 
-          <div class="flex gap-2">
+          <div class="flex gap-2 mb-8">
             <%= link_to sample_pack_download_path(sample_pack), title: "Star Sample Pack", class: "btn btn-primary btn-square" do %>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white hover:fill-yellow-300">
                 <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
@@ -43,58 +43,71 @@
     </div>
   </div>
 
-  <div class="w-full ">
-  <div class="max-w-5xl mx-auto">
-    <div class="p-4 sm:px-6 sm:py-4">
-      <% if sample_pack.samples.length > 0 %>
-        <% sample_pack.samples.each do |sample| %> 
-          <div class="flex flex-col">
-            <h5 class="prose prose-gray"><strong><%= sample.name %></strong></h5>
-            <div>
-              <p class="prose prose-sm prose-gray">Key: <%= sample.key || "N/A" %></p>
-              <p class="prose prose-sm prose-gray">BPM: <%= sample.bpm || "N/A" %></p>
-              <p class="prose prose-sm prose-gray">
-                Tags:
-                <% sample.sample_tags.each do |tag| %>
-                  <span class="badge badge-sm badge-outline"><%= tag.name %></span>
-                <% end %>
-              </p>
-            </div>
-            <div class="">
-              <!-- TODO: tags -->
-            <div>
-          </div>
-          <div class="flex mt-2">
-            <% if sample.audio.present? %>
-              <div data-controller="audio-player" data-audio-player-sample-value="<%= url_for(sample.audio) %>">
-                <div class="w-96 p-2">
-                  <button data-audio-player-target="button" class="btn btn-sm" data-action="click->audio-player#play">
+
+  <div>
+    <div class="overflow-x-auto max-w-5xl mx-auto px-4">
+      <table class="table table-zebra w-full">
+        <!-- head -->
+        <thead>
+          <tr>
+            <th></th>
+            <th>Filename</th>
+            <th>Time</th>
+            <th>Key</th>
+            <th>BPM</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% sample_pack.samples.each do |sample| %>
+            <tr data-controller="audio-player" data-audio-player-sample-value="<%= url_for(sample.audio) %>">
+              <th>
+                <div class="">
+                  <button data-audio-player-target="button" class="" data-action="click->audio-player#play" title="play or stop">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
                     </svg>
                   </button>
                 </div>
-              </div>
-              <%#= audio_tag(url_for(sample.audio), controls: "", class: "") %>
-              <%= button_to sample_like_path(sample), class: "w-full h-full ml-2" do %>
-                <% if sample.already_liked?(current_user.id) %>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="#f91880" viewBox="0 0 24 24" stroke-width="0" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                  </svg>
-                <% else %>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="0.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                  </svg>
-                <% end %>
-              <% end %>
-            <% else %>
-              <span>Audio File corrupted</span>
-            <% end %>
-          </div>
-          <hr class="my-6" />
-        <% end %>
-      <% end %>
+              </th>
+              <td class="flex flex-col">
+                <p class="prose prose-gray">
+                  <%= sample.name %>
+                </p>
+                
+                  <div>
+                    <% sample.sample_tags.each do |tag| %>
+                      <span class="badge badge-sm badge-outline"><%= tag.name %></span>
+                    <% end %>
+                  </div>
+                
+              </td>
+              <td data-audio-player-target="time"></td>
+              <td><%= sample.key %></td>
+              <td><%= sample.bpm %></td>
+              <td>
+                <div class="flex gap-1">
+                  <%= button_to sample_like_path(sample), class: "w-full h-full ml-2" do %>
+                    <% if sample.already_liked?(current_user.id) %>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="#f91880" viewBox="0 0 24 24" stroke-width="0" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                      </svg>
+                    <% else %>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="0.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                      </svg>
+                    <% end %>
+                  <% end %>
+                  <%= link_to rails_blob_path(sample.audio, disposition: "attachment"), class: "btn btn-ghost btn-xs", title: "download" do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                    </svg>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
-  </div>
-</div>
