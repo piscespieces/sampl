@@ -9,6 +9,7 @@
     "autoprefixer": "^10.4.13",
     "daisyui": "^2.51.4",
     "esbuild": "^0.17.11",
+    "howler": "^2.2.3",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7"
   },

@@ -66,7 +66,11 @@
           </div>
           <div class="flex mt-2">
             <% if sample.audio.present? %>
-              <%= audio_tag(url_for(sample.audio), controls: "", class: "") %>
+              <div data-controller="audio-player" data-audio-player-sample-value="<%= url_for(sample.audio) %>">
+                <button id="pause" class="btn btn-sm" data-action="click->audio-player#play">Play</button>
+                <button id="pause" class="btn btn-sm" data-action="click->audio-player#pause">Pause</button>
+              </div>
+              <%#= audio_tag(url_for(sample.audio), controls: "", class: "") %>
               <%= button_to sample_like_path(sample), class: "w-full h-full ml-2" do %>
                 <% if sample.already_liked?(current_user.id) %>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="#f91880" viewBox="0 0 24 24" stroke-width="0" stroke="currentColor" class="w-6 h-6">
