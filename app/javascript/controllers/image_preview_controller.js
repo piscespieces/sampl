@@ -2,12 +2,15 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="image-preview"
 export default class extends Controller {
-  connect() {}
+  connect() {
+    console.log('co')
+  }
 
   previewFile() {
-    console.log('ran')
     const preview = document.querySelector("#image-preview-container")
+    console.log(preview, 'p')
     const file = document.querySelector("#image-preview-file").files[0]
+    console.log(file, 'file')
     const reader = new FileReader()
 
     reader.addEventListener(

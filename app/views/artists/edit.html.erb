@@ -1,0 +1,32 @@
+<%= form_with(model: @artist, url: artist_path) do |form| %>
+  <div class="bg-neutral-content mb-6">
+    <h1 class="prose prose-gray text-2xl font-semibold mb-6 px-6 py-4 max-w-5xl mx-auto">Edit User Profile</h1>
+  </div>
+  <div class="max-w-5xl mx-auto px-6 py-8 bg-neutral rounded drop-shadow-xl">
+    <div class="form-control w-full mb-4" data-controller="image-preview">
+      <%= form.label :image, class: "label prose prose-gray"%>
+      <% if form.object.image.attached? %>
+        <div class="w-48">
+          <%= image_tag(form.object.image, alt: "user image", class: "border-4 border-gray-300 rounded drop-shadow-xl")%>
+        </div>
+      <% else %>
+        <div class="w-48">
+          <img id="image-preview-container" class="border-4 border-gray-300 rounded drop-shadow-xl" />
+        </div>
+      <% end %>
+      <%= form.file_field :image, id: "image-preview-file", class: "label prose prose-gray", accept: "image/png, image/jpeg", data: { action: "change->image-preview#previewFile" }%>
+    </div>
+    <div class="form-control w-full mb-4">
+      <%= form.label :name, class: "label prose prose-gray" %>
+      <%= form.text_field :name, class: "input input-bordered w-full bg-neutral md:max-w-md", required: true %>
+    </div>
+    <div class="form-control w-full mb-4">
+      <%= form.label :bio, class: "label prose prose-gray" %>
+      <%= form.text_area :bio, class: "textarea textarea-bordered textarea-md w-full bg-neutral md:max-w-md", required: true %>
+    </div>
+
+    <div class="mt-8">
+      <%= form.submit "Save Profile", class: "btn btn-primary"%>
+    </div>
+  </div>
+<% end %>

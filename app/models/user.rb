@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :email, presence: true, uniqueness: true
+  has_one_attached :image
   has_many :sample_packs
   has_many :likes, dependent: :destroy
   has_many :liked_samples, through: :likes, source: :sample

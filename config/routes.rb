@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     get "download"
   end
   resources :likes, only: [:index]
+  resources :artists, only: [:show, :edit, :update]
 
   # namespace :artists do
   #   resources :sample_packs
