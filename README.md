@@ -8,7 +8,7 @@
 
 ### Under Construction 🚧
 
-Sampl is still under construction but it can be launch locally
+Sampl is still under construction but it can be launched locally
 
 - Clone repository from GitHub
 - Within the root directory run `bundle install` and `yarn install` to install all dependencies needed
@@ -32,14 +32,12 @@ An artist `User` can create Sample Packs and Samples that belong to the Sample P
 
 ### Upcoming tasks/features
 
-- Hook up S3 bucket for Image and Audio Uploads
+- ~~Direct Uploads with ActiveStorage and Digital Ocean spaces~~
 - ~~Deploy app as is~~
 - ~~Create `My Liked Samples` section~~
 - Create endpoint to download Sample Packs and it's associated Samples in a ZIP file for all `User`s
 - ~~Add `Genre`to Sample Packs~~
 - ~~Improve view layouts~~
-- Add an Audio Data Analizer to Audio Uploads to determine Audio Quality and enforce audio quality validation
-- Improve Audio Player design
 - Create `StarredSamplesPacks` table for `User`s to star Sample Packs
-- Create a Public Profile View for Artists and regular `Users`s can see it
+- ~Create a Public Profile View for Artists and regular `Users`s can see it~
 - ... 🚧
